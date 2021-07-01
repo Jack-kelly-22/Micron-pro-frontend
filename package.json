@@ -12,6 +12,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "heroku-prebuild": "npm cache clear --force && rm package-lock.json && npm install",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
