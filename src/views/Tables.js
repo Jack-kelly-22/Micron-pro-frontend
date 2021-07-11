@@ -37,15 +37,16 @@ function Tables() {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle>
+                <CardTitle tag="h4">Previous Jobs </CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
                     <tr>
                       <th>Name</th>
-                      <th>Country</th>
-                      <th>City</th>
+                      <th>Failed Images</th>
+                      <th>Porosity Valid</th>
+                      <th>Report</th>
                       <th className="text-right">Salary</th>
                     </tr>
                   </thead>
