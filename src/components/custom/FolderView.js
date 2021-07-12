@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState,useEffect } from "react";
 
 // reactstrap components
 import {
@@ -21,19 +21,27 @@ function FolderView() {
   const [worker_folders, setWorkerFolders] = useState([]);
   const [err_msg, setErrMsg] = useState([]);
   const [worker_data, setWorkerData] = useState([]);
+  const [worker_selected, setWorkerSelected] = useState("");
   
-  function get_worker_data(){
-    let data = {'tester':'test'};
-    axios.post(process.env.REACT_APP_BACKEND_URL + '/workers_online',data)
-    .then(response => {
-      setWorkerData(response.data);
-    })
-    .catch(error => {
-      console.log(error);
-      setErrMsg(error.response.data);
-    });
+  useEffect(() => {
+    async function get_worker_data(){
+      let data = {'tester':'test'};
+      axios.post('http://127.0.0.1:5000' + '/workers_online',data)
+      .then(response => {
+        setWorkerData(response.data.workers);
+        console.log(response.data.workers);
+      })
+      .catch(error => {
+        console.log(error);
+        setErrMsg(error.response);
+      });
+    }
+  
+    get_worker_data();
   }
+  ,[]);
 
+  
 
   function get_folders() {
     let data = {
@@ -57,13 +65,23 @@ function FolderView() {
       });
   }
   
-  const worker_selections= worker_data.map(function(worker){
+  const worker_selections = worker_data===undefined?null: worker_data.map(function(worker){
     return (
       <option key={worker.id} value={worker.id}>{worker.name}</option>    
     );                          
-  }); 
+  });
 
-
+  const worker_folder_options = worker_selected===undefined?null: worker_folders.map(function(folder){
+    return (
+      <option key={folder.name} value={folder.name}>{folder.name}</option>    
+    );                          
+  });
+  
+  function update_folders(value){
+    console.log(value);
+  }
+   
+  
   return (
     <div className="content">
       <Row>
@@ -74,7 +92,7 @@ function FolderView() {
             </CardHeader>
 
             <form>
-            <select>
+            <select onSelect={(v)=>update_folders(v.target.value)}>
               {worker_selections}
             </select>
               <input type="submit" value="Submit" />
