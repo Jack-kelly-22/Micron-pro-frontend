@@ -21,6 +21,7 @@ import {React, useState} from "react";
 // reactstrap components
 import {
     Button,
+    Badge,
     Card,
     CardHeader,
     CardBody,
@@ -31,6 +32,8 @@ import {
     Input,
     Row,
     Col,
+    ListGroup,
+    ListGroupItem,
   } from "reactstrap";
   import axios from "axios";
 
@@ -42,6 +45,7 @@ function NewJob() {
     const [Notes, setNotes] = useState("");
     const [scale, setScale] = useState("");
     //image options
+    const [folders, setFolders] = useState([]);
     const [thresh_value, setThreshValue] = useState(false);
     const [num_circles, setNumCircles] = useState("");
     const [alt_thres, setAltThresh] = useState(false);
@@ -52,6 +56,22 @@ function NewJob() {
     const [max_diameter, setMaxDiameter] = useState("");
     const [ignore_size, setIgnoreSize] = useState("");
     const [err_msg, setErrMsg] = useState("");
+
+
+    function add_folder(folder,size){
+        folders.push({name:folder,size:size});
+        let new_folders = [...new Set(folders)];
+        setFolders(new_folders);
+        console.log("new_folders", new_folders);
+    }
+
+    function remove_folder(folder){
+      //removes folder from folders array
+      let new_folders = folders.filter(f => f.name != folder);
+      setFolders(new_folders);
+      console.log("new_folders", new_folders);
+  }
+
 
     function post_job(){
         let job = {
@@ -180,6 +200,34 @@ function NewJob() {
                           onChange={(v) => setNotes(v.target.value)}
                         />
                       </FormGroup>
+                      <ListGroup>
+                      <h5>
+                        Added folders
+                        {folders.map(function(folder, i){
+                          return (
+                          <ListGroupItem  key={i} className="justify-content-between">
+                            <Row>
+                              <Col md="8">
+                            {folder.name}
+                            <Badge pill>{folder.size}</Badge>
+                              </Col>
+                              <Col md={"3"}>
+                                <Button
+                                  size="sm"
+                                  style={{ float: "right", borderRadius: "70px" }}
+                                  variant="danger"
+                                  onClick={() => remove_folder(folder.name)}
+                                >
+                                  x
+                                </Button>
+                              </Col>
+                            </Row>
+                            </ListGroupItem> 
+                          );
+                        })}
+                      </h5>
+
+                      </ListGroup>
                     </Col>
                   </Row>
                   <Row>
@@ -199,7 +247,7 @@ function NewJob() {
             </Card>
           </Col>
           <Col className="ml-auto mr-auto" md="6">
-            <FolderView></FolderView>
+            <FolderView add_folder={add_folder}></FolderView>
           </Col>
         </Row>
       </div>
