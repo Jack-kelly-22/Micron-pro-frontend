@@ -16,7 +16,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import {React, useState} from "react";
+import {React, useState,useEffect} from "react";
 
 // reactstrap components
 import {
@@ -38,25 +38,14 @@ import {
   import axios from "axios";
 
 import FolderView from "../components/custom/FolderView.js"
+// import {JobOptions} from "../components/custom/JobOptions.js"
 
 function NewJob() {
     //Job info
     const [job_name, setJobName] = useState("defaultState");
-    const [Notes, setNotes] = useState("");
-    const [scale, setScale] = useState("");
-    //image options
     const [folders, setFolders] = useState([]);
-    const [thresh_value, setThreshValue] = useState(false);
-    const [num_circles, setNumCircles] = useState("");
-    const [alt_thres, setAltThresh] = useState(false);
-    const [crop_size, setCropSize] = useState("");
-    //pores
-    const [min_pore, setMinPore] = useState("");
-    const [max_pore, setMaxPore] = useState("");
-    const [max_diameter, setMaxDiameter] = useState("");
-    const [ignore_size, setIgnoreSize] = useState("");
-    const [err_msg, setErrMsg] = useState("");
-
+    //image options
+    
 
     function add_folder(folder,size){
         folders.push({name:folder,size:size});
@@ -71,42 +60,43 @@ function NewJob() {
       setFolders(new_folders);
       console.log("new_folders", new_folders);
   }
+  
 
 
     function post_job(){
-        let job = {
-            "job_name":job_name,
-            "Notes":Notes,
-            "scale":scale,
-            "thresh_value":thresh_value,
-            "num_circles":num_circles,
-            "alt_thres":alt_thres,
-            "crop_size":crop_size,
-            "min_pore":min_pore,
-            "max_pore":max_pore,
-            "max_diameter":max_diameter,
-            "ignore_size":ignore_size,
+        // let job = {
+        //     "job_name":job_name,
+        //     "Notes":Notes,
+        //     "scale":scale,
+        //     "thresh_value":thresh_value,
+        //     "num_circles":num_circles,
+        //     "alt_thres":alt_thres,
+        //     "crop_size":crop_size,
+        //     "min_pore":min_pore,
+        //     "max_pore":max_pore,
+        //     "max_diameter":max_diameter,
+        //     "ignore_size":ignore_size,
 
-        }
+        // }
         console.log("Start job button has been clicked");
-        let token = sessionStorage.getItem("access_token");
-        let head = { headers: { Authorization: "Bearer " + token } };
-        axios
-      .post(process.env.BACKEND_URL + "/new_job", job, head)
-      .then((result) => {
-        if (result) {
-          console.log("finished updating user", result);
-          if (result.status === 200) {
-            setErrMsg("Job has started... refresh page to start another")
-          } else {
-            setErrMsg(result.data["msg"]);
-          }
-        }
-      })
-      .catch(function (error) {
-        console.log("error,", error.response.data.msg);
-        setErrMsg(error.response.data.msg);
-      });
+      //   let token = sessionStorage.getItem("access_token");
+      //   let head = { headers: { Authorization: "Bearer " + token } };
+      //   axios
+      // .post(process.env.BACKEND_URL + "/new_job", job, head)
+      // .then((result) => {
+      //   if (result) {
+      //     console.log("finished updating user", result);
+      //     if (result.status === 200) {
+      //       setErrMsg("Job has started... refresh page to start another")
+      //     } else {
+      //       setErrMsg(result.data["msg"]);
+      //     }
+      //   }
+      // })
+      // .catch(function (error) {
+      //   console.log("error,", error.response.data.msg);
+      //   setErrMsg(error.response.data.msg);
+      // });
   }
     
   
@@ -114,6 +104,7 @@ function NewJob() {
     <>
       <div className="content">
         <Row>
+        {/* <JobOptions/> */}
           <Col className="ml-auto mr-auto" md="6">
           <Card className="card-user">
               <CardHeader>
@@ -134,72 +125,12 @@ function NewJob() {
                     </Col>
                     <Row/>
                   </Row>
-                  <Row><h6> Pores</h6></Row>
-                  <Row>
-                    <Col className="pr-1" md="4">
-                      <FormGroup>
-                      
-                        <label>Max Diameter(Microns)</label>
-                        <Input
-                          defaultValue="50"
-                          type="text"
-                          onChange={(v) => setMaxDiameter(v.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="4">
-                      <FormGroup>
-                        <label># of circles</label>
-                        <Input
-                          defaultValue="Faker"
-                          type="text"
-                          onChange={(v) => setNumCircles(v.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="4">
-                      <FormGroup>
-                        <label>size to ignore (microns)</label>
-                        <Input
-                          defaultValue="Faker"
-                          type="text"
-                          onChange={(v) => setIgnoreSize(v.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                  <Col className="pl-1" md="6">
-                      <FormGroup>
-                        <label>Min Porosity</label>
-                        <Input
-                          defaultValue="Faker"
-                          placeholder="Last Name"
-                          type="text"
-                          onChange={(v) => setMinPore(v.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="6">
-                      <FormGroup>
-                        <label>Max Porosity</label>
-                        <Input
-                          defaultValue="30"
-                          type="text"
-                          onChange={(v) => setMaxPore(v.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
+                  {/* <JobOptions type="new"/> */}
+                  
+                  
                   <Row>
                     <Col md="12">
-                      <FormGroup>
-                        <label>Additional Notes</label>
-                        <Input
-                          type="textarea"
-                          onChange={(v) => setNotes(v.target.value)}
-                        />
-                      </FormGroup>
+                  
                       <ListGroup>
                       <h5>
                         Added folders
@@ -231,7 +162,7 @@ function NewJob() {
                     </Col>
                   </Row>
                   <Row>
-                    <div className="update ml-auto mr-auto">
+                    {/* <div className="update ml-auto mr-auto">
                       <Button
                         className="btn-round"
                         color="primary"
@@ -240,13 +171,14 @@ function NewJob() {
                         Start Job
                       </Button>
                       <h6>{err_msg}</h6>
-                    </div>
+                    </div> */}
                   </Row>
                 </Form>
               </CardBody>
             </Card>
           </Col>
           <Col className="ml-auto mr-auto" md="6">
+          
             <FolderView add_folder={add_folder}></FolderView>
           </Col>
         </Row>
