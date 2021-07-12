@@ -1,8 +1,9 @@
 import { React, useState,useEffect } from "react";
-
+import ReactDOM from 'react-dom';
 // reactstrap components
 import {
   Button,
+  Badge,
   Card,
   CardHeader,
   CardBody,
@@ -13,15 +14,20 @@ import {
   Input,
   Row,
   Col,
+  ListGroup,
+  ListGroupItem,
+  ListGroupItemText,
+  ListGroupItemHeading,
 } from "reactstrap";
 import axios from "axios";
-import Tables from "views/Tables";
+import Tables from "../../views/Tables.js";
 
-function FolderView() {
+function FolderView(props) {
   const [worker_folders, setWorkerFolders] = useState([]);
   const [err_msg, setErrMsg] = useState([]);
   const [worker_data, setWorkerData] = useState([]);
-  const [worker_selected, setWorkerSelected] = useState("");
+  const [worker_selected, setWorkerSelected] = useState({});
+  const [page, setPage] = useState(1);
   
   useEffect(() => {
     async function get_worker_data(){
@@ -30,6 +36,9 @@ function FolderView() {
       .then(response => {
         setWorkerData(response.data.workers);
         console.log(response.data.workers);
+        if (response.data.workers.length != 0){
+          setWorkerSelected(response.data.workers[0]);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -38,25 +47,30 @@ function FolderView() {
     }
   
     get_worker_data();
+    // get_folders();
   }
   ,[]);
 
   
+  
 
-  function get_folders() {
+  async function get_folders(v) {
     let data = {
-      host: "http://127.0.0.1:5000",
+      host: "name",
       limit: "20",
     };
-    let token = sessionStorage.getItem("token");
-    let head = { headers: { Authorization: "Bearer " + token } };
+    console.log("get_folders started",v);
+    // console.log(worker_selected);
+    // let token = sessionStorage.getItem("token");
+    // let head = { headers: { Authorization: "Bearer " + token } };
+    
     axios
-      .post(process.env.BACKEND_URL + "/worker_folders", data, head)
+      .post('http://127.0.0.1:5000' + "/worker_folders",worker_selected)
       .then((result) => {
         if (result) {
           console.log("finished updating user", result);
           if (result.status === 200) {
-            setErrMsg("Job has started... refresh page to start another");
+            console.log("success");
             setWorkerFolders(result.data.folders);
           } else {
             setErrMsg(result.data["msg"]);
@@ -67,13 +81,21 @@ function FolderView() {
   
   const worker_selections = worker_data===undefined?null: worker_data.map(function(worker){
     return (
-      <option key={worker.id} value={worker.id}>{worker.name}</option>    
-    );                          
+      <ListGroupItem key={worker.id} value={worker}>
+        <div>
+          
+          
+          <h5>{worker.name}</h5>
+          <Button onClick={()=>get_folders(worker_selected)}>select</Button>
+          
+          </div></ListGroupItem>    
+    );
   });
 
-  const worker_folder_options = worker_selected===undefined?null: worker_folders.map(function(folder){
+  console.log(worker_folders);
+  const worker_folder_options = worker_folders==[]?null: worker_folders.map(function(folder){
     return (
-      <option key={folder.name} value={folder.name}>{folder.name}</option>    
+      <div key={folder.name} value={folder.name}>{folder.name}</div>    
     );                          
   });
   
@@ -91,18 +113,57 @@ function FolderView() {
               <CardTitle tag="h5">Select Host Computer</CardTitle>
             </CardHeader>
 
-            <form>
-            <select onSelect={(v)=>update_folders(v.target.value)}>
+            <ListGroup className="ml-auto">
               {worker_selections}
-            </select>
-              <input type="submit" value="Submit" />
-            </form>
+
+            </ListGroup>
+            {/* <form>
+            <select >
+            </select> */}
+            
+              
+            {/* </form> */}
           </Card>
           <Card className="card-user">
             <CardHeader>
               <CardTitle tag="h5">Image Folders</CardTitle>
+              <h6>from {worker_selected.name}</h6>
+              <p className="text-muted">
+                showing folders 1-{page*20} of {worker_folders.length}
+              </p>
             </CardHeader>
-            
+            <ListGroup className="ml-auto">
+              {worker_folders.slice((page-1)*20,((page-1)*20)+20).map(function(folder){
+                let key = Object.keys(folder)[0];
+                let val = folder[key];
+    return (
+      <ListGroupItem variant="light" className="ml-auto mr-auto" style={{maxHeight:'50px'}}>
+                <Row>
+                  <Col md={"9"}>
+                    <Row>
+                  <p className="text-secondary">
+                    {key}{" "}
+                    <Badge pill>{val.length}</Badge>
+                  </p>
+                    </Row>
+                  </Col>
+
+                <Col md={"3"} className="ml-auto">
+                <Button
+                  size="sm"
+                  style={{ float: "right", borderRadius: "40px",}}
+                  variant="danger"
+
+                  onClick={() => props.add_folder(key,val.length)}
+                >
+                  Add
+                </Button>
+                </Col>
+                </Row>
+              </ListGroupItem>
+    );                          
+  })}
+            </ListGroup>
           </Card>
         </Col>
       </Row>
