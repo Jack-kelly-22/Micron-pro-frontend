@@ -16,7 +16,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import {React,useEffect,useState} from "react";
 // react plugin used to create charts
 import { Line, Pie } from "react-chartjs-2";
 // reactstrap components
@@ -35,8 +35,25 @@ import {
   dashboardEmailStatisticsChart,
   dashboardNASDAQChart,
 } from "variables/charts.js";
+import axios from "axios";
 
+let BACKEND_URL = process.env.BACKEND_URL;
 function Dashboard() {
+  const [stats, setStats] = useState({
+    total_images: 0,
+    total_jobs: 0,
+    in_progress: 0,
+  });
+
+  useEffect(() => {
+    async function loadStats() {
+      const response = await axios.post('http://127.0.0.1:5000' + "/get_stats",{});
+      setStats(response.data.stats);
+      console.log(response.data.stats);
+    }
+    loadStats();
+  }, []);
+
   return (
     <>
       <div className="content">
@@ -47,24 +64,18 @@ function Dashboard() {
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-globe text-warning" />
+                      <i className="nc-icon nc-chart-bar-32 text-warning" />
                     </div>
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Capacity</p>
-                      <CardTitle tag="p">150GB</CardTitle>
+                      <p className="card-category">images processed</p>
+                      <CardTitle tag="p">{stats.total_images}</CardTitle>
                       <p />
                     </div>
                   </Col>
                 </Row>
               </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fas fa-sync-alt" /> Update Now
-                </div>
-              </CardFooter>
             </Card>
           </Col>
           <Col lg="3" md="6" sm="6">
@@ -73,24 +84,19 @@ function Dashboard() {
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-money-coins text-success" />
+                      <i className="nc-icon nc-sound-wave text-success" />
                     </div>
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Revenue</p>
-                      <CardTitle tag="p">$ 1,345</CardTitle>
+                      <p className="card-category">In-progress Jobs</p>
+                      <CardTitle tag="p">{stats.in_progress}</CardTitle>
                       <p />
                     </div>
                   </Col>
                 </Row>
               </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="far fa-calendar" /> Last day
-                </div>
-              </CardFooter>
+              
             </Card>
           </Col>
           <Col lg="3" md="6" sm="6">
@@ -104,19 +110,15 @@ function Dashboard() {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Errors</p>
-                      <CardTitle tag="p">23</CardTitle>
+                      <p className="card-category">Images to be reviewed</p>
+                      <CardTitle tag="p">{stats.review_image_count}</CardTitle>
                       <p />
+                      
                     </div>
                   </Col>
                 </Row>
               </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="far fa-clock" /> In the last hour
-                </div>
-              </CardFooter>
+              
             </Card>
           </Col>
           <Col lg="3" md="6" sm="6">
@@ -130,19 +132,14 @@ function Dashboard() {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Followers</p>
-                      <CardTitle tag="p">+45K</CardTitle>
+                      <p className="card-category">Completed This Week</p>
+                      <CardTitle tag="p">stats.job_week</CardTitle>
                       <p />
                     </div>
                   </Col>
                 </Row>
               </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fas fa-sync-alt" /> Update now
-                </div>
-              </CardFooter>
+              
             </Card>
           </Col>
         </Row>
@@ -154,12 +151,12 @@ function Dashboard() {
                 <p className="card-category">24 Hours performance</p>
               </CardHeader>
               <CardBody>
-                <Line
+                {/* <Line
                   data={dashboard24HoursPerformanceChart.data}
                   options={dashboard24HoursPerformanceChart.options}
                   width={400}
                   height={100}
-                />
+                /> */}
               </CardBody>
               <CardFooter>
                 <hr />

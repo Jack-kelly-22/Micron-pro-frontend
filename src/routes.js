@@ -23,6 +23,7 @@ import TableList from "views/Tables.js";
 import NewJob from "views/NewJob.js";
 import Maps from "views/Map.js";
 import UserPage from "views/User.js";
+import SettingsPage from "views/SettingsPage.js";
 
 import { defaults } from "chart.js";
 
@@ -39,6 +40,13 @@ var routes = [
     name: "New Job",
     icon: "nc-icon nc-album-2",
     component: NewJob,
+    layout: "/admin",
+  },
+  {
+    path: "/settings",
+    name: "Settings ",
+    icon: "nc-icon nc-settings-gear-65",
+    component: SettingsPage,
     layout: "/admin",
   },
   {
