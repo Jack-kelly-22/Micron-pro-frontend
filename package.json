@@ -12,7 +12,7 @@
     "chart.js": "3.2.1",
     "jquery": "3.6.0",
     "node": "^16.4.0",
-    "node-sass": "6.0.0",
+    "node-sass": "^6.0.1",
     "perfect-scrollbar": "1.5.1",
     "prettier": "^2.3.2",
     "react": "^17.0.2",
@@ -22,7 +22,7 @@
     "react-notification-alert": "0.0.13",
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^1.1.5",
     "reactstrap": "8.9.0",
     "web-vitals": "^1.0.1"
   },
@@ -55,7 +55,7 @@
     ]
   },
   "devDependencies": {
-    "gulp": "4.0.2",
+    "gulp": "^3.9.1",
     "gulp-append-prepend": "1.0.9"
   }
 }
