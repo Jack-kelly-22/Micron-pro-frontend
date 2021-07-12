@@ -20,7 +20,7 @@ import {
   ListGroupItemHeading,
 } from "reactstrap";
 import axios from "axios";
-import Tables from "../../views/Tables.js";
+// import Tables from "../../views/Tables.js";
 
 function FolderView(props) {
   const [worker_folders, setWorkerFolders] = useState([]);
