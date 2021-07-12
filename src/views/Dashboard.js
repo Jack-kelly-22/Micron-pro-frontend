@@ -36,6 +36,7 @@ import {
   dashboardNASDAQChart,
 } from "variables/charts.js";
 import axios from "axios";
+import JobList from "../components/custom/JobList.js";
 
 let BACKEND_URL = process.env.BACKEND_URL;
 function Dashboard() {
@@ -84,7 +85,7 @@ function Dashboard() {
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-sound-wave text-success" />
+                      <i className="nc-icon nc-refresh-69 text-success" />
                     </div>
                   </Col>
                   <Col md="8" xs="7">
@@ -127,13 +128,13 @@ function Dashboard() {
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-favourite-28 text-primary" />
+                      <i className="nc-icon nc-world-2 text-primary" />
                     </div>
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Completed This Week</p>
-                      <CardTitle tag="p">stats.job_week</CardTitle>
+                      <p className="card-category">Workers online</p>
+                      <CardTitle tag="p">{stats.workers_online}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -147,23 +148,21 @@ function Dashboard() {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h5">Users Behavior</CardTitle>
-                <p className="card-category">24 Hours performance</p>
+                <CardTitle tag="h5">Jobs Overview</CardTitle>
               </CardHeader>
               <CardBody>
-                {/* <Line
-                  data={dashboard24HoursPerformanceChart.data}
-                  options={dashboard24HoursPerformanceChart.options}
-                  width={400}
-                  height={100}
-                /> */}
+                <Row>
+                  <Col md="4" xs="5">
+                    <JobList header={"In Progress"}/>
+                    </Col>
+                    <Col md="4" xs="5">
+                    <JobList header={"Recently Finished"}/>
+                    </Col>
+                    <Col md="4" xs="5">
+                    <JobList header={"Favorited Jobs"}/>
+                    </Col>
+                </Row>
               </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fa fa-history" /> Updated 3 minutes ago
-                </div>
-              </CardFooter>
             </Card>
           </Col>
         </Row>
