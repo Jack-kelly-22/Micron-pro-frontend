@@ -33,10 +33,10 @@ function JobList(props) {
                 data['status'] = 'finished';
             }
             
-            axios.post("http://127.0.0.1:8000"+"/get_jobs").then(function(response) {
-                data['jobs'] = response.data;
-                setJobList(data['jobs']);
-                console.log("JOB LIST: ", data);
+            axios.post("http://127.0.0.1:5000"+"/get_jobs",data).then(function(response) {
+                
+                setJobList(response.data.jobs);
+                console.log("JOB LIST: ", response.data.jobs);
             }).catch(function(error) {
                 console.log("Error: ", error);
             });
@@ -46,29 +46,18 @@ function JobList(props) {
     
     return (
         <div>
-            <Card> 
-                <CardHeader>
-                    <CardTitle>
-                        <h4>{props.header}</h4>
-                    </CardTitle>
-                </CardHeader>
-                <CardBody>
+            <Card body outline color="danger">
+                <CardHeader tag="h5">{props.header}</CardHeader>
                     <ListGroup>
                         {job_list.map((job) => {
                             return (
-                                <ListGroupItem key={job.id}>
-                                    <ListGroupItemHeading>
-                                        <h4>{job.name}</h4>
-                                    </ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                        <p>{job.description}</p>
-                                    </ListGroupItemText>
+                                <ListGroupItem key={job.job.job_name}>
+                                        {job.job.job_name}
                                 </ListGroupItem>
                             );
                         }
                         )}
                     </ListGroup>
-                </CardBody>
             </Card>
         </div>
     ); 
