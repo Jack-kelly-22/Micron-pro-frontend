@@ -48,7 +48,7 @@ function SettingsPage() {
     
   
   return (
-    <JobOptions type="settings"/>);
+    <JobOptions type="settings" buttonText="Save Config"/>);
 }
 
 export default SettingsPage;

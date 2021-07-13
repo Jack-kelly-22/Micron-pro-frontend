@@ -117,12 +117,7 @@ function FolderView(props) {
               {worker_selections}
 
             </ListGroup>
-            {/* <form>
-            <select >
-            </select> */}
             
-              
-            {/* </form> */}
           </Card>
           <Card className="card-user">
             <CardHeader>

@@ -23,6 +23,7 @@ import axios from "axios";
 
 function JobOptions(props) {
   //Job info
+  const[job_name, setJobName] = useState("");
   const [Notes, setNotes] = useState("");
   const [scale, setScale] = useState("");
   //image options
@@ -37,6 +38,7 @@ function JobOptions(props) {
   const [max_pore, setMaxPore] = useState("");
   const [max_diameter, setMaxDiameter] = useState("");
   const [ignore_size, setIgnoreSize] = useState("");
+
   const [err_msg, setErrMsg] = useState("");
 
   function load_config(i) {
@@ -97,6 +99,42 @@ function JobOptions(props) {
     configs.pop(key);
     setConfigs(configs);
   }
+  function post_job(){
+    let job = {
+        "job_name":job_name,
+        "Notes":Notes,
+        "scale":scale,
+        "thresh_value":thresh_value,
+        "num_circles":num_circles,
+        "alt_thres":alt_thres,
+        "crop_size":crop_size,
+        "min_pore":min_pore,
+        "max_pore":max_pore,
+        "max_diameter":max_diameter,
+        "ignore_size":ignore_size,
+
+    }
+    console.log("Start job button has been clicked");
+    let token = sessionStorage.getItem("access_token");
+    let head = { headers: { Authorization: "Bearer " + token } };
+    axios
+  .post(process.env.BACKEND_URL + "/new_job", job, head)
+  .then((result) => {
+    if (result) {
+      console.log("finished updating user", result);
+      if (result.status === 200) {
+        setErrMsg("Job has started... refresh page to start another")
+      } else {
+        setErrMsg(result.data["msg"]);
+      }
+    }
+  })
+  .catch(function (error) {
+    console.log("error,", error.response.data.msg);
+    setErrMsg(error.response.data.msg);
+  });
+}
+
 
   useEffect(() => {
     async function get_configs() {
@@ -119,7 +157,7 @@ function JobOptions(props) {
   return (
     <div className="content">
       <Row>
-        <Col className="ml-auto mr-auto" md="6">
+        <Col className="ml-auto mr-auto" md="8">
           <Card className="card-user">
             <CardHeader>
               <CardTitle tag="h5">
@@ -129,6 +167,50 @@ function JobOptions(props) {
               </CardTitle>
             </CardHeader>
             <CardBody>
+              <p className="card-text">Saved configs</p>
+            <ListGroup>
+              {configs.map(function (config, i) {
+                return (
+                  <ListGroupItem
+                    variant="light"
+                    key={i}
+                    className="ml-auto mr-auto"
+                    style={{ maxHeight: "50px" }}
+                  >
+                    <Row md={"12"}>
+                      <Col md={{span:5, offset:0}}>
+                        {/* <Row> */}
+                          <p className="text-secondary">
+                            {config.config_name}{" "}
+                          </p>
+                        {/* </Row> */}
+                      </Col>
+
+                      <Col md={{span:3, offset:5}} className="ml-auto mr-auto">
+                        <Button
+                          size="sm"
+                          // style={{ float: "right", borderRadius: "40px" }}
+                          color="primary"
+                          onClick={() => load_config(i)}
+                        >
+                          load
+                        </Button>
+                      </Col>
+                      <Col md={{span:3, offset:9}} className="ml-auto">
+                        <Button
+                          size="sm"
+                          // style={{ float: "right", borderRadius: "40px" }}
+                          color="danger"
+                          onClick={() => remove_config(config.config_name, i)}
+                        >
+                          delete
+                        </Button>
+                      </Col>
+                    </Row>
+                  </ListGroupItem>
+                );
+              })}
+            </ListGroup>
               <Form>
                 <Row>
                   <h6> Pores</h6>
@@ -239,10 +321,10 @@ function JobOptions(props) {
                 <Row>
                   <div className="update ml-auto mr-auto">
                     <FormGroup>
-                      <label>Configuration Name</label>
+                      <label>{props.buttonText==="Save Config"?"Configuration Name":"Job Name"}</label>
                       <Input
                         type="text"
-                        defaultValue={config_name}
+                        defaultValue={props.buttonText==="Save Config"?config_name:job_name}
                         onChange={(v) => setConfigName(v.target.value)}
                       />
                     </FormGroup>
@@ -251,9 +333,9 @@ function JobOptions(props) {
                     <Button
                       className="btn-round"
                       color="primary"
-                      onClick={() => post_config()}
+                      onClick={() => props.buttonText==="Save Config"?post_job():post_config()}
                     >
-                      Save config
+                      {props.buttonText}
                     </Button>
                     <h6>{err_msg}</h6>
                   </div>
@@ -262,56 +344,14 @@ function JobOptions(props) {
             </CardBody>
           </Card>
         </Col>
-        <Col className="ml-auto mr-auto" md="6">
+        {/* <Col className="ml-auto mr-auto" md="6">
           <Card className="card-user">
             <CardHeader>
               <CardTitle tag="h5">Saved configs</CardTitle>
             </CardHeader>
-            <ListGroup className="ml-auto">
-              {configs.map(function (config, i) {
-                return (
-                  <ListGroupItem
-                    variant="light"
-                    key={i}
-                    className="ml-auto mr-auto"
-                    style={{ maxHeight: "50px" }}
-                  >
-                    <Row>
-                      <Col md={"5"}>
-                        <Row>
-                          <p className="text-secondary">
-                            {config.config_name}{" "}
-                          </p>
-                        </Row>
-                      </Col>
-
-                      <Col md={"3"} className="ml-auto">
-                        <Button
-                          size="sm"
-                          style={{ float: "right", borderRadius: "40px" }}
-                          variant="danger"
-                          onClick={() => load_config(i)}
-                        >
-                          load
-                        </Button>
-                      </Col>
-                      <Col md={"3"} className="ml-auto">
-                        <Button
-                          size="sm"
-                          style={{ float: "right", borderRadius: "40px" }}
-                          variant="danger"
-                          onClick={() => remove_config(config.config_name, i)}
-                        >
-                          delete
-                        </Button>
-                      </Col>
-                    </Row>
-                  </ListGroupItem>
-                );
-              })}
-            </ListGroup>
+            
           </Card>
-        </Col>
+        </Col> */}
       </Row>
     </div>
   );
