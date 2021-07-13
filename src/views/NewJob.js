@@ -43,21 +43,17 @@ function NewJob() {
   }
 
   return (
-    <>
       <div className="content">
         <Row>
-          <Col className="ml-auto mr-auto" md="6">
-            <Card className="card-user">
+          <Col className="ml-auto mr-auto" md="7">
+            <h5>Create New Job</h5>
               <JobOptions header="Create New Job" buttonText="Start Job" />
-              <CardHeader>
-                <CardTitle tag="h5">Create New Job</CardTitle>
-              </CardHeader>
-              <CardBody>
+          </Col>
+          <Col className="ml-auto mr-auto" md="5">
                 <Form>
                   <Row>
                     <Col md="12">
                       <ListGroup>
-                        <h5>
                           Added folders
                           {folders.map(function (folder, i) {
                             return (
@@ -87,32 +83,16 @@ function NewJob() {
                               </ListGroupItem>
                             );
                           })}
-                        </h5>
                       </ListGroup>
                     </Col>
                   </Row>
-                  <Row>
-                    {/* <div className="update ml-auto mr-auto">
-                      <Button
-                        className="btn-round"
-                        color="primary"
-                        onClick={()=>post_job()}
-                      >
-                        Start Job
-                      </Button>
-                      <h6>{err_msg}</h6>
-                    </div> */}
-                  </Row>
                 </Form>
-              </CardBody>
-            </Card>
           </Col>
-          <Col className="ml-auto mr-auto" md="6">
+          <Col className="ml-auto mr-auto" md="5">
             <FolderView add_folder={add_folder}></FolderView>
           </Col>
         </Row>
       </div>
-    </>
   );
 }
 
