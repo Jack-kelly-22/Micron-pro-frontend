@@ -41,12 +41,6 @@ import FolderView from "../components/custom/FolderView.js"
 import JobOptions from "../components/custom/JobOptions.js";
 function SettingsPage() {
     
-   
-    
-
-    
-    
-  
   return (
     <JobOptions type="settings" buttonText="Save Config"/>);
 }
