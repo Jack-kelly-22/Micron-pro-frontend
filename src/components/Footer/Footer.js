@@ -30,13 +30,13 @@ function Footer(props) {
           <nav className="footer-nav">
             <ul>
               <li>
-                <a href="https://www.creative-tim.com" target="_blank">
-                  Creative Tim
+                <a>
+                    JK Dev
                 </a>
               </li>
               <li>
                 <a href="https://blog.creative-tim.com" target="_blank">
-                  Blog
+                  github
                 </a>
               </li>
               <li>
@@ -46,12 +46,7 @@ function Footer(props) {
               </li>
             </ul>
           </nav>
-          <div className="credits ml-auto">
-            <div className="copyright">
-              &copy; {1900 + new Date().getYear()}, made with{" "}
-              <i className="fa fa-heart heart" /> by Creative Tim
-            </div>
-          </div>
+          
         </Row>
       </Container>
     </footer>
