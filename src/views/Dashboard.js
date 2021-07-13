@@ -119,7 +119,6 @@ function Dashboard() {
                   </Col>
                 </Row>
               </CardBody>
-              
             </Card>
           </Col>
           <Col lg="3" md="6" sm="6">
@@ -148,7 +147,7 @@ function Dashboard() {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h5">Jobs Overview</CardTitle>
+                <CardTitle>Jobs Overview</CardTitle>
               </CardHeader>
               <CardBody>
                 <Row>
@@ -156,7 +155,7 @@ function Dashboard() {
                     <JobList header={"In Progress"}/>
                     </Col>
                     <Col md="4" xs="5">
-                    <JobList header={"Recently Finished"}/>
+                    {/* <JobList header={"Recently Finished"}/> */}
                     </Col>
                     <Col md="4" xs="5">
                     <JobList header={"Favorited Jobs"}/>
