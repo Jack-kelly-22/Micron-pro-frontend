@@ -21,9 +21,10 @@ import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import TableList from "views/Tables.js";
 import NewJob from "views/NewJob.js";
-import Maps from "views/Map.js";
+// import Maps from "views/Map.js";
 import UserPage from "views/User.js";
 import SettingsPage from "views/SettingsPage.js";
+import PrevJobsPage from "views/PrevJobsPage.js";
 
 import { defaults } from "chart.js";
 
@@ -36,10 +37,17 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/New_Job",
+    path: "/new_job",
     name: "New Job",
     icon: "nc-icon nc-album-2",
     component: NewJob,
+    layout: "/admin",
+  },
+  {
+    path: "/prev_jobs",
+    name: "Previous Jobs",
+    icon: "nc-icon nc-bookmark-2",
+    component: PrevJobsPage,
     layout: "/admin",
   },
   {
