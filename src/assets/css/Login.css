@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  .outer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 1000px;
+    text-align: left;
+    margin-top: 10%;
+  }
+  
+  .inner {
+    width: 450px;
+    font-family: TimesNewRoman;
+    margin: auto;
+    opacity: 0.9;
+    background: #3779bb;
+    padding: 40px;
+    border-radius: 15px;
+    transition: all 0.3s;
+  }
+  
+  .outer h3 {
+    text-align: center;
+    margin: 0;
+    line-height: 1;
+    padding-bottom: 20px;
+  }
+  
