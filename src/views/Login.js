@@ -6,7 +6,7 @@
  * @author Thread News
  *
  * Created at     : 2021-05-28 10:23:45
- * Last modified  : 2021-07-15 07:30:01
+ * Last modified  : 2021-07-15 08:59:34
  */
 
 //react imports
@@ -55,7 +55,7 @@ export default function Login(props) {
           }
           if (result.status === 200) {
             console.log("REsult", result.data);
-            sessionStorage.setItem("access_token", result.data["access_token"]);
+            sessionStorage.setItem("access_token", result.data.access_token);
             store_user(result.data.user);
           }
         }

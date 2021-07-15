@@ -29,7 +29,11 @@ function FolderView(props) {
   
 
   function delete_folder(key){
-    axios.post(process.env.REACT_APP_BACKEND_URL + "/delete", {...worker_selected, folder: key});
+    let token = sessionStorage.getItem("token");
+    let head = { headers: { Authorization: "Bearer " + token }};
+    axios.post(process.env.REACT_APP_BACKEND_URL + "/delete", {...worker_selected, folder: key},head);
+    let folder_temp = worker_folders.filter((folder) => Object.keys(folder)[0] !== key);
+    setWorkerFolders(folder_temp);
   }
 
   function get_folders(v) {
@@ -45,10 +49,10 @@ function FolderView(props) {
     console.log("get_folders started",worker_selected);
     // console.log(worker_selected);
     let token = sessionStorage.getItem("token");
-    let head = { headers: { Authorization: "Bearer " + token } };
+    let head = { headers: { Authorization: "Bearer " + token }};
     
     axios
-      .post(process.env.REACT_APP_BACKEND_URL + "/worker_folders",worker_selected)
+      .post(process.env.REACT_APP_BACKEND_URL + "/worker_folders",worker_selected,head)
       .then((result) => {
         if (result) {
           console.log("finished updating user", result);
@@ -70,8 +74,10 @@ function FolderView(props) {
     console.log(conf)
     
     async function get_worker_data(){
-      let data = {'tester':'test'};
-      axios.post(process.env.REACT_APP_BACKEND_URL + '/workers_online',data)
+      let data = {tester:'test'};
+      let token = sessionStorage.getItem("access_token");
+      let head = { headers: { Authorization: "Bearer " + token }};
+      axios.post(process.env.REACT_APP_BACKEND_URL + '/workers_online',data,head)
       .then(response => {
         setWorkerData(response.data.workers);
         console.log(response.data.workers);

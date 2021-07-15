@@ -98,6 +98,8 @@ function JobOptions(props) {
 
   function remove_config(config_name, key) {
     console.log(config_name, key);
+
+    let head = { headers: { Authorization: "Bearer " + sessionStorage.getItem("access_token") } };
     axios.post(process.env.REACT_APP_BACKEND_URL + "/remove_config", {
       config_name: config_name,
     });
@@ -144,9 +146,11 @@ function JobOptions(props) {
 
   useEffect(() => {
     async function get_configs() {
+      let token = sessionStorage.getItem("access_token");
+      let head = { headers: { Authorization: "Bearer " + token } };
       let data = { tester: "test" };
       axios
-        .post(process.env.REACT_APP_BACKEND_URL + "/get_configs", data)
+        .post(process.env.REACT_APP_BACKEND_URL + "/get_configs", data,head)
         .then((response) => {
           setConfigs(response.data.configs);
           console.log(response.data.configs);

@@ -25,18 +25,12 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   Container,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  Input,
+
 } from "reactstrap";
 
 import routes from "routes.js";
+import {get_user,is_logged_in} from "../../functions/LocalStorageHelper.js";
 
 function Header(props) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -137,6 +131,11 @@ function Header(props) {
                   >Account</span>
                 </p>
               </Link>
+            </NavItem>
+            <NavItem>
+              <Link to={is_logged_in()?"/admin/dashboard":"/login"} className="nav-link btn-rotate">
+            <h5>{is_logged_in()?get_user().user_name: "Log In"}</h5>
+            </Link>
             </NavItem>
           </Nav>
         </Collapse>
