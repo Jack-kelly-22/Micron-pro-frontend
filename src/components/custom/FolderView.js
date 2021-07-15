@@ -44,7 +44,7 @@ function FolderView(props) {
     let head = { headers: { Authorization: "Bearer " + token } };
     
     axios
-      .post(process.env.BACKEND_URL + "/worker_folders",worker_selected)
+      .post(process.env.REACT_APP_BACKEND_URL + "/worker_folders",worker_selected)
       .then((result) => {
         if (result) {
           console.log("finished updating user", result);
