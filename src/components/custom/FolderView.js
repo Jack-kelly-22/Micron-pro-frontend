@@ -28,6 +28,10 @@ function FolderView(props) {
   const [page, setPage] = useState(1);
   
 
+  function delete_folder(key){
+    axios.post(process.env.REACT_APP_BACKEND_URL + "/delete", {...worker_selected, folder: key});
+  }
+
   function get_folders(v) {
     let data = {
       host: "name",
@@ -145,35 +149,38 @@ function FolderView(props) {
                 let key = Object.keys(folder)[0];
                 let val = folder[key];
     return (
-      <ListGroupItem variant="light" className="ml-auto mr-auto" style={{maxHeight:'50px'}}>
+      <ListGroupItem variant="light" className="" style={{maxHeight:'50px'}}>
                 <Row>
-                  <Col md={"9"}>
-                    <Row>
+                  <Col md={"8"}>
+                    {/* <Row> */}
                   <p className="text-secondary">
                     {key}{" "}
                     <Badge pill>{val.length}</Badge>
                   </p>
-                    </Row>
+                    {/* </Row> */}
                   </Col>
 
-                <Col md={"3"} className="ml-auto">
+                <Col md="4">
+                  <Row>
                 <Button
                   size="sm"
-                  style={{ float: "right", borderRadius: "40px",}}
+                  className="btn-rotate"
+                  style={{ borderRadius: "10px",width:20,height:"20px"}}
                   variant="danger"
 
                   onClick={() => props.add_folder(key,val.length)}
                 >
-                  Add
+                  +
                 </Button>
                 <Button
                   size="sm"
-                  style={{ float: "right", borderRadius: "40px",}}
+                  style={{borderRadius: "50px",}}
                   color="danger"
-                  onClick={() => props.delete_folder(key,val.length)}
+                  onClick={() => delete_folder(key)}
                 >
-                  Delete
+                  -
                 </Button>
+                </Row>
                 </Col>
                 </Row>
               </ListGroupItem>

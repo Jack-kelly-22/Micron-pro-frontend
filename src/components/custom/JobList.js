@@ -36,7 +36,7 @@ function JobList(props) {
                 data['status'] = 'finished';
             }
             
-            axios.post(process.env.BACKEND_URL+"/get_jobs",data).then(function(response) {
+            axios.post(process.env.REACT_APP_BACKEND_URL+"/get_jobs",data).then(function(response) {
                 
                 setJobList(response.data.jobs);
                 console.log("JOB LIST: ", response.data.jobs);
