@@ -36,6 +36,7 @@ var routes = [
     component: Dashboard,
     layout: "/admin",
   },
+  
   {
     path: "/new_job",
     name: "New Job",
