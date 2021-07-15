@@ -38,7 +38,7 @@ import {
 import axios from "axios";
 import JobList from "../components/custom/JobList.js";
 
-let BACKEND_URL = process.env.BACKEND_URL;
+
 function Dashboard() {
   const [stats, setStats] = useState({
     total_images: 0,
@@ -48,7 +48,7 @@ function Dashboard() {
 
   useEffect(() => {
     async function loadStats() {
-      const response = await axios.post('http://127.0.0.1:5000' + "/get_stats",{});
+      const response = await axios.post(process.env.REACT_APP_BACKEND_URL + "/get_stats",{});
       setStats(response.data.stats);
       console.log(response.data.stats);
     }

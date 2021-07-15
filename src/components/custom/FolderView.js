@@ -15,9 +15,12 @@ import {
   ListGroupItem,
 } from "reactstrap";
 import axios from "axios";
-// import Tables from "../../views/Tables.js";
+
+
+
 
 function FolderView(props) {
+
   const [worker_folders, setWorkerFolders] = useState([]);
   const [err_msg, setErrMsg] = useState([]);
   const [worker_data, setWorkerData] = useState([]);
@@ -41,7 +44,7 @@ function FolderView(props) {
     let head = { headers: { Authorization: "Bearer " + token } };
     
     axios
-      .post('http://127.0.0.1:5000' + "/worker_folders",worker_selected)
+      .post(process.env.BACKEND_URL + "/worker_folders",worker_selected)
       .then((result) => {
         if (result) {
           console.log("finished updating user", result);
@@ -58,10 +61,13 @@ function FolderView(props) {
   
   
   useEffect(() => {
+    const dotenv = require('dotenv');
+    let conf = dotenv.config();
+    console.log(conf)
     
     async function get_worker_data(){
       let data = {'tester':'test'};
-      axios.post('http://127.0.0.1:5000' + '/workers_online',data)
+      axios.post(process.env.REACT_APP_BACKEND_URL + '/workers_online',data)
       .then(response => {
         setWorkerData(response.data.workers);
         console.log(response.data.workers);
@@ -73,7 +79,7 @@ function FolderView(props) {
       })
       .catch(error => {
         console.log(error);
-        setErrMsg(error.response);
+        setErrMsg(error.response.data);
       });
     }
   
@@ -159,6 +165,14 @@ function FolderView(props) {
                   onClick={() => props.add_folder(key,val.length)}
                 >
                   Add
+                </Button>
+                <Button
+                  size="sm"
+                  style={{ float: "right", borderRadius: "40px",}}
+                  color="danger"
+                  onClick={() => props.delete_folder(key,val.length)}
+                >
+                  Delete
                 </Button>
                 </Col>
                 </Row>

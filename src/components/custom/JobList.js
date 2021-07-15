@@ -21,6 +21,9 @@ import {
 } from "reactstrap";
 import axios from "axios";
 
+// const dotenv = require('dotenv');
+// dotenv.config({ path: '.env' });
+
 function JobList(props) {
     const [job_list, setJobList] = useState([]);
     useEffect(() => {
@@ -33,7 +36,7 @@ function JobList(props) {
                 data['status'] = 'finished';
             }
             
-            axios.post("http://127.0.0.1:5000"+"/get_jobs",data).then(function(response) {
+            axios.post(process.env.BACKEND_URL+"/get_jobs",data).then(function(response) {
                 
                 setJobList(response.data.jobs);
                 console.log("JOB LIST: ", response.data.jobs);
@@ -51,8 +54,8 @@ function JobList(props) {
                     <ListGroup>
                         {job_list.map((job) => {
                             return (
-                                <ListGroupItem key={job.job.job_name}>
-                                        {job.job.job_name}
+                                <ListGroupItem key={job.job_name}>
+                                        {job.job_name}
                                 </ListGroupItem>
                             );
                         }

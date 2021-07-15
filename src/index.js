@@ -33,6 +33,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import AdminLayout from "layouts/Admin.js";
 import PrevJobsPage from 'views/PrevJobsPage';
 
+
 ReactDOM.render(
   <BrowserRouter>
     <Switch>

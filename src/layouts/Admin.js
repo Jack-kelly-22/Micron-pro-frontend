@@ -36,6 +36,7 @@ function Dashboard(props) {
   const mainPanel = React.useRef();
   const location = useLocation();
   React.useEffect(() => {
+    
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current);
       document.body.classList.toggle("perfect-scrollbar-on");

@@ -16,11 +16,15 @@ import {
   Col,
   ListGroup,
   ListGroupItem,
+  ListGroupItemText,
 } from "reactstrap";
 import axios from "axios";
 
 import FolderView from "../components/custom/FolderView.js";
 import JobOptions from "../components/custom/JobOptions.js";
+
+const dotenv = require('dotenv');
+dotenv.config();
 
 function NewJob() {
   //Job info
@@ -43,56 +47,42 @@ function NewJob() {
   }
 
   return (
+    <>
       <div className="content">
         <Row>
-          <Col className="ml-auto mr-auto" md="7">
+          <Col className="mr-auto" md="6">
             <h5>Create New Job</h5>
-              <JobOptions header="Create New Job" buttonText="Start Job" />
+            <JobOptions header="Create New Job" buttonText="Start Job" />
           </Col>
-          <Col className="ml-auto mr-auto" md="5">
-                <Form>
-                  <Row>
-                    <Col md="12">
-                      <ListGroup>
-                          Added folders
-                          {folders.map(function (folder, i) {
-                            return (
-                              <ListGroupItem
-                                key={i}
-                                className="justify-content-between"
-                              >
-                                <Row>
-                                  <Col md="8">
-                                    {folder.name}
-                                    <Badge pill>{folder.size}</Badge>
-                                  </Col>
-                                  <Col md={"3"}>
-                                    <Button
-                                      size="sm"
-                                      style={{
-                                        float: "right",
-                                        borderRadius: "70px",
-                                      }}
-                                      variant="danger"
-                                      onClick={() => remove_folder(folder.name)}
-                                    >
-                                      x
-                                    </Button>
-                                  </Col>
-                                </Row>
-                              </ListGroupItem>
-                            );
-                          })}
-                      </ListGroup>
-                    </Col>
-                  </Row>
-                </Form>
-          </Col>
-          <Col className="ml-auto mr-auto" md="5">
+          <Col md="6">
             <FolderView add_folder={add_folder}></FolderView>
+            <h5>Selected folders</h5>
+            <ListGroup>
+              {folders.map(function (folder, i) {
+                return (
+                  <ListGroupItem key={i} style={{"max-height":'50px'}}>
+                    <ListGroupItemText>{folder.name} <Badge pill>{folder.size}</Badge>
+                    <Button
+                      size="sm"
+                      style={{
+                        // float: "right",
+                        borderRadius: "70px",
+                      }}
+                      color="danger"
+                      onClick={() => remove_folder(folder.name)}
+                    >
+                      x
+                    </Button></ListGroupItemText>
+                    
+                    
+                  </ListGroupItem>
+                );
+              })}
+            </ListGroup>
           </Col>
         </Row>
       </div>
+    </>
   );
 }
 

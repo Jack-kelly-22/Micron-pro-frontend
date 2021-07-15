@@ -21,17 +21,21 @@ import {
 } from "reactstrap";
 import axios from "axios";
 
+
+const dotenv = require('dotenv');
+dotenv.config();
+
 function JobOptions(props) {
   //Job info
-  const[job_name, setJobName] = useState("");
+  const [job_name, setJobName] = useState("");
   const [Notes, setNotes] = useState("");
   const [scale, setScale] = useState("");
   //image options
   const [configs, setConfigs] = useState([]);
-  const [thresh_value, setThreshValue] = useState(false);
+  const [thresh_value, setThreshValue] = useState(0);
   const [num_circles, setNumCircles] = useState("");
   const [alt_thres, setAltThresh] = useState(false);
-  const [crop_size, setCropSize] = useState("");
+  const [crop_size, setCropSize] = useState("0");
   const [config_name, setConfigName] = useState("");
   //pores
   const [min_pore, setMinPore] = useState("");
@@ -69,12 +73,13 @@ function JobOptions(props) {
       max_pore: max_pore,
       max_diameter: max_diameter,
       ignore_size: ignore_size,
+      
     };
     console.log("save config button has been clicked");
     // let token = sessionStorage.getItem("access_token");
     // let head = { headers: { Authorization: "Bearer " + token } };
     axios
-      .post("http://127.0.0.1:5000" + "/new_config", { config: config_preset })
+      .post(process.env.REACT_APP_BACKEND_URL + "/new_config", { config: config_preset })
       .then((result) => {
         if (result) {
           console.log("finished updating user", result);
@@ -93,54 +98,55 @@ function JobOptions(props) {
 
   function remove_config(config_name, key) {
     console.log(config_name, key);
-    axios.post("http://127.0.0.1:5000" + "/remove_config", {
+    axios.post(process.env.REACT_APP_BACKEND_URL + "/remove_config", {
       config_name: config_name,
     });
-    configs.pop(key);
-    setConfigs(configs);
-  }
-  function post_job(){
-    let job = {
-        "job_name":job_name,
-        "Notes":Notes,
-        "scale":scale,
-        "thresh_value":thresh_value,
-        "num_circles":num_circles,
-        "alt_thres":alt_thres,
-        "crop_size":crop_size,
-        "min_pore":min_pore,
-        "max_pore":max_pore,
-        "max_diameter":max_diameter,
-        "ignore_size":ignore_size,
+    //remove config with config_name from configs array
+    let conf = configs.filter((f) => f.config_name !== config_name);
 
-    }
+    setConfigs(conf);
+  }
+  function post_job() {
+    let job = {
+      job_name: job_name,
+      Notes: Notes,
+      scale: scale,
+      thresh_value: thresh_value,
+      num_circles: num_circles,
+      alt_thres: alt_thres,
+      crop_size: crop_size,
+      min_pore: min_pore,
+      max_pore: max_pore,
+      max_diameter: max_diameter,
+      ignore_size: ignore_size,
+      status: "In Progress",
+    };
     console.log("Start job button has been clicked");
     let token = sessionStorage.getItem("access_token");
     let head = { headers: { Authorization: "Bearer " + token } };
     axios
-  .post(process.env.BACKEND_URL + "/new_job", job, head)
-  .then((result) => {
-    if (result) {
-      console.log("finished updating user", result);
-      if (result.status === 200) {
-        setErrMsg("Job has started... refresh page to start another")
-      } else {
-        setErrMsg(result.data["msg"]);
-      }
-    }
-  })
-  .catch(function (error) {
-    console.log("error,", error.response.data.msg);
-    setErrMsg(error.response.data.msg);
-  });
-}
-
+      .post(process.env.REACT_APP_BACKEND_URL + "/new_job", { job: job }, head)
+      .then((result) => {
+        if (result) {
+          console.log("finished updating user", result);
+          if (result.status === 200) {
+            setErrMsg("Job has started... refresh page to start another");
+          } else {
+            setErrMsg(result.data["msg"]);
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log("error,", error.response.data.msg);
+        setErrMsg(error.response.data.msg);
+      });
+  }
 
   useEffect(() => {
     async function get_configs() {
       let data = { tester: "test" };
       axios
-        .post("http://127.0.0.1:5000" + "/get_configs", data)
+        .post(process.env.REACT_APP_BACKEND_URL + "/get_configs", data)
         .then((response) => {
           setConfigs(response.data.configs);
           console.log(response.data.configs);
@@ -157,201 +163,175 @@ function JobOptions(props) {
   return (
     <div className="content">
       <Row>
-        <Col className="ml-auto mr-auto" md="8">
-          <Card className="card-user">
-            <CardHeader>
-              <CardTitle tag="h5">
-                {props.type === "settings"
-                  ? "Create config preset"
-                  : "Job settings"}
-              </CardTitle>
-            </CardHeader>
-            <CardBody>
-              <p className="card-text">Saved configs</p>
-            <ListGroup>
-              {configs.map(function (config, i) {
-                return (
-                  <ListGroupItem
-                    variant="light"
-                    key={i}
-                    className="ml-auto mr-auto"
-                    style={{ maxHeight: "50px" }}
-                  >
-                    <Row md={"12"}>
-                      <Col md={{span:5, offset:0}}>
-                        {/* <Row> */}
-                          <p className="text-secondary">
-                            {config.config_name}{" "}
-                          </p>
-                        {/* </Row> */}
-                      </Col>
+        <Col>
+          <h6>
+            {props.type === "settings"
+              ? "Create config preset"
+              : "Select config"}
+          </h6>
+          <p className="card-text">Saved configs</p>
+          <ListGroup>
+            {configs.map(function (config, i) {
+              return (
+                <ListGroupItem
+                  variant="light"
+                  key={i}
+                  className="ml-auto mr-auto"
+                  style={{ maxHeight: "50px" }}
+                >
+                  <Row md={"12"}>
+                    <Col md={{ span: 5, offset: 0 }}>
+                      <p className="text-secondary">{config.config_name} </p>
+                    </Col>
 
-                      <Col md={{span:3, offset:5}} className="ml-auto mr-auto">
-                        <Button
-                          size="sm"
-                          // style={{ float: "right", borderRadius: "40px" }}
-                          color="primary"
-                          onClick={() => load_config(i)}
-                        >
-                          load
-                        </Button>
-                      </Col>
-                      <Col md={{span:3, offset:9}} className="ml-auto">
-                        <Button
-                          size="sm"
-                          // style={{ float: "right", borderRadius: "40px" }}
-                          color="danger"
-                          onClick={() => remove_config(config.config_name, i)}
-                        >
-                          delete
-                        </Button>
-                      </Col>
-                    </Row>
-                  </ListGroupItem>
-                );
-              })}
-            </ListGroup>
-              <Form>
-                <Row>
-                  <h6> Pores</h6>
-                </Row>
-                <Row>
-                  <Col className="pr-1" md="4">
-                    <FormGroup>
-                      <label>Max Diameter(Microns)</label>
-                      <Input
-                        defaultValue={max_diameter}
-                        type="text"
-                        onChange={(v) => setMaxDiameter(v.target.value)}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="pl-1" md="4">
-                    <FormGroup>
-                      <label># of circles</label>
-                      <Input
-                        defaultValue={num_circles}
-                        type="text"
-                        onChange={(v) => setNumCircles(v.target.value)}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="pl-1" md="4">
-                    <FormGroup>
-                      <label>size to ignore (microns)</label>
-                      <Input
-                        defaultValue="10"
-                        type="text"
-                        onChange={(v) => setIgnoreSize(v.target.value)}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col className="pl-1" md="4">
-                    <FormGroup>
-                      <label>Min Porosity</label>
-                      <Input
-                        defaultValue={min_pore}
-                        placeholder="Last Name"
-                        type="text"
-                        onChange={(v) => setMinPore(v.target.value)}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="pl-1" md="4">
-                    <FormGroup>
-                      <label>Max Porosity</label>
-                      <Input
-                        defaultValue={max_pore}
-                        type="text"
-                        onChange={(v) => setMaxPore(v.target.value)}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="pr-1" md="4">
-                    <FormGroup>
-                      <label>Max Diameter(Microns)</label>
-                      <Input
-                        defaultValue={max_diameter}
-                        type="text"
-                        onChange={(v) => setMaxDiameter(v.target.value)}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <h6> Image options</h6>
-                </Row>
-                <Row>
-                  <Col className="pl-1" md="4">
-                    <FormGroup>
-                      <label>crop_size</label>
-                      <Input
-                        defaultValue={crop_size}
-                        type="text"
-                        onChange={(v) => setCropSize(v.target.value)}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="pl-1" md="4">
-                    <FormGroup>
-                      <label>Threshold Value</label>
-                      <Input
-                        defaultValue={thresh_value}
-                        type="text"
-                        onChange={(v) => setThreshValue(v.target.value)}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-
-                <Row>
-                  <Col md="12">
-                    <FormGroup>
-                      <label>Additional Notes</label>
-                      <Input
-                        type="textarea"
-                        defaultValue={Notes}
-                        onChange={(v) => setNotes(v.target.value)}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <div className="update ml-auto mr-auto">
-                    <FormGroup>
-                      <label>{props.buttonText==="Save Config"?"Configuration Name":"Job Name"}</label>
-                      <Input
-                        type="text"
-                        defaultValue={props.buttonText==="Save Config"?config_name:job_name}
-                        onChange={(v) => setConfigName(v.target.value)}
-                      />
-                    </FormGroup>
-                  </div>
-                  <div className="update ml-auto mr-auto">
-                    <Button
-                      className="btn-round"
-                      color="primary"
-                      onClick={() => props.buttonText==="Save Config"?post_job():post_config()}
+                    <Col
+                      md={{ span: 3, offset: 5 }}
+                      className="ml-auto mr-auto"
                     >
-                      {props.buttonText}
-                    </Button>
-                    <h6>{err_msg}</h6>
-                  </div>
+                      <Button
+                        size="sm"
+                        style={{ float: "right", borderRadius: "20px" }}
+                        color="primary"
+                        onClick={() => load_config(i)}
+                      >
+                        load
+                      </Button>
+                    </Col>
+                    <Col md={{ span: 3, offset: 9 }} className="ml-auto">
+                      <Button
+                        size="sm"
+                        style={{ float: "right", borderRadius: "20px" }}
+                        color="danger"
+                        onClick={() => remove_config(config.config_name, i)}
+                      >
+                        delete
+                      </Button>
+                    </Col>
+                  </Row>
+                </ListGroupItem>
+              );
+            })}
+          </ListGroup>
+          <Card body outline color="info">
+            <CardHeader tag="h6"> Pores </CardHeader>
+            <Row>
+              <Col className="pr-1" md="4">
+                <label>Max Diameter(Microns)</label>
+                <Input
+                  defaultValue={max_diameter}
+                  type="text"
+                  onChange={(v) => setMaxDiameter(v.target.value)}
+                />
+              </Col>
+              <Col className="pl-1" md="4">
+                <label># of circles</label>
+                <Input
+                  defaultValue={num_circles}
+                  type="text"
+                  onChange={(v) => setNumCircles(v.target.value)}
+                />
+              </Col>
+              <Col className="pr-1" md="4">
+                <label>size to ignore (microns)</label>
+                <Input
+                  defaultValue="10"
+                  type="text"
+                  onChange={(v) => setIgnoreSize(v.target.value)}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col className="pl-1" md="4">
+                <label>Min Porosity</label>
+                <Input
+                  defaultValue={min_pore}
+                  type="text"
+                  onChange={(v) => setMinPore(v.target.value)}
+                />
+              </Col>
+              <Col className="pl-1" md="6">
+                <label>Max Porosity</label>
+                <Input
+                  defaultValue={max_pore}
+                  type="text"
+                  onChange={(v) => setMaxPore(v.target.value)}
+                />
+              </Col>
+            </Row>
+            <Card
+              body
+              inverse
+              style={{ backgroundColor: "#333", borderColor: "#333" }}
+            >
+              <CardHeader tag="h6"> Image options</CardHeader>
+
+              <CardBody>
+                <Row>
+                  <Col className="pl-1" md="4">
+                    <label>crop_size</label>
+                    <Input
+                      defaultValue={crop_size}
+                      type="text"
+                      onChange={(v) => setCropSize(v.target.value)}
+                    />
+                  </Col>
+                  <Col className="pl-1" md="4">
+                    <label>Threshold Value</label>
+                    <Input
+                      defaultValue={thresh_value}
+                      type="text"
+                      onChange={(v) => setThreshValue(v.target.value)}
+                    />
+                  </Col>
                 </Row>
-              </Form>
-            </CardBody>
+              </CardBody>
+            </Card>
+
+            <Card>
+              <CardTitle>Summary</CardTitle>
+              <label>Additional Notes</label>
+              <Input
+                type="textarea"
+                defaultValue={Notes}
+                onChange={(v) => setNotes(v.target.value)}
+              />
+            </Card>
+            <Row>
+              <div className="update ml-auto">
+                <strong>
+                  {props.buttonText === "Save Config"
+                    ? "Configuration Name"
+                    : "Job Name"}
+                </strong>
+                <Input
+                  type="text"
+                  defaultValue={
+                    props.buttonText === "Save Config" ? config_name : job_name
+                  }
+                  onChange={(v) =>
+                    props.buttonText === "Save Config"
+                      ? setConfigName(v.target.value)
+                      : setJobName(v.target.value)
+                  }
+                />
+              </div>
+              <div className="update ml-auto mr-auto">
+                <Button
+                  className="btn-round"
+                  color="primary"
+                  onClick={() =>
+                    props.buttonText === "Save Config"
+                      ? post_config()
+                      : post_job()
+                  }
+                >
+                  {props.buttonText}
+                </Button>
+                <h6>{err_msg}</h6>
+              </div>
+            </Row>
           </Card>
         </Col>
-        {/* <Col className="ml-auto mr-auto" md="6">
-          <Card className="card-user">
-            <CardHeader>
-              <CardTitle tag="h5">Saved configs</CardTitle>
-            </CardHeader>
-            
-          </Card>
-        </Col> */}
       </Row>
     </div>
   );
