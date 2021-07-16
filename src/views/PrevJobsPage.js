@@ -30,7 +30,7 @@ function PrevJobsPage() {
   useEffect(() => {
     async function get_jobs(data,setter){
       
-      axios.post(process.env.BACKEND_URL + '/get_jobs',data)
+      axios.post(process.env.REACT_APP_BACKEND_URL + '/get_jobs',data)
       .then(response => {
         setInProgressJobs(response.data.jobs);
         console.log(response.data.jobs);

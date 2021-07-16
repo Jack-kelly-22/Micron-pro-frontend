@@ -17,21 +17,25 @@
 
 */
 import React from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Nav, NavItem, Button } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
-import PerfectScrollbar from "perfect-scrollbar";
 import { is_logged_in, signOut } from "functions/LocalStorageHelper";
 import logo from "logo.svg";
-import { useState } from "react";
+import PerfectScrollbar from "perfect-scrollbar";
+import Login from "views/Login";
 
 var ps;
 
 function Sidebar(props) {
   const sidebar = React.useRef();
   // verifies if routeName is the one active (in browser input)
-  const login_route = props.routes.pop();
-  const [logged_in, setLogged_in] = useState(is_logged_in());
+  const login_route = {route:"/admin/login",name: "Login",
+    component: Login,
+    layout: "/admin",
+}
+  const [logged_in, setLogged_in] = useState(false);
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   };

@@ -331,7 +331,7 @@ function JobOptions(props) {
                 >
                   {props.buttonText}
                 </Button>
-                <h6>{err_msg}</h6>
+                <h6>{JSON.stringify(err_msg)}</h6>
               </div>
             </Row>
           </Card>

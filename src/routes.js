@@ -24,7 +24,6 @@ import NewJob from "views/NewJob.js";
 import UserPage from "views/User.js";
 import SettingsPage from "views/SettingsPage.js";
 import PrevJobsPage from "views/PrevJobsPage.js";
-import Login from "views/Login";
 
 import { defaults } from "chart.js";
 
@@ -88,12 +87,12 @@ var routes = [
     layout: "/admin",
   },
 
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/login",
+  //   name: "Login",
+  //   component: Login,
+  //   layout: "/admin",
+  // },
   
 ];
 export default routes;
