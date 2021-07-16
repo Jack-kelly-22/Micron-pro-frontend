@@ -5,7 +5,7 @@
  * @author Thread News
  *
  * Created at     : 2021-05-28 22:23:04
- * Last modified  : 2021-07-15 07:10:38
+ * Last modified  : 2021-07-15 20:05:13
  */
 
  export function store_user(user, access_token = false) {
@@ -28,6 +28,11 @@
     };
     return user;
   }
+
+  export function signOut(){
+    sessionStorage.clear()
+  }
+
   
   export function get_user_id() {
     return sessionStorage.getItem("user_id");

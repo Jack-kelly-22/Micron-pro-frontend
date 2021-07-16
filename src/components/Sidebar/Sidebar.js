@@ -18,17 +18,20 @@
 */
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Nav } from "reactstrap";
+import { Nav, NavItem, Button } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
-
+import { is_logged_in, signOut } from "functions/LocalStorageHelper";
 import logo from "logo.svg";
+import { useState } from "react";
 
 var ps;
 
 function Sidebar(props) {
   const sidebar = React.useRef();
   // verifies if routeName is the one active (in browser input)
+  const login_route = props.routes.pop();
+  const [logged_in, setLogged_in] = useState(is_logged_in());
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   };
@@ -52,18 +55,12 @@ function Sidebar(props) {
       data-active-color={props.activeColor}
     >
       <div className="logo">
-        <a
-          className="simple-text logo-mini"
-        >
+        <a className="simple-text logo-mini">
           <div className="logo-img">
             <img src={logo} alt="react-logo" />
           </div>
         </a>
-        <a
-          className="simple-text logo-normal"
-        >
-          Micron Pro
-        </a>
+        <a className="simple-text logo-normal">Micron Pro</a>
       </div>
       <div className="sidebar-wrapper" ref={sidebar}>
         <Nav>
@@ -86,6 +83,26 @@ function Sidebar(props) {
               </li>
             );
           })}
+          <NavItem className="ml-auto mr-auto" style={{ width: "90%" }}>
+            {logged_in ? (
+              <Button
+                style={{ width: "90%" }}
+                onClick={
+                  () => {
+                    signOut();
+                    setLogged_in(false);
+                  }
+                  // clear_user();
+                }
+              >
+                Log out
+              </Button>
+            ) : (
+              <NavLink to={login_route.layout + login_route.path}>
+                <Button style={{ width: "90%" }}>Sign in</Button>
+              </NavLink>
+            )}
+          </NavItem>
         </Nav>
       </div>
     </div>
