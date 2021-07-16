@@ -31,7 +31,7 @@ function FolderView(props) {
   
 
   function delete_folder(key){
-    let token = sessionStorage.getItem("token");
+    let token = sessionStorage.getItem("access_token");
     let head = { headers: { Authorization: "Bearer " + token }};
     axios.post(process.env.REACT_APP_BACKEND_URL + "/delete", {...worker_selected, folder: key},head);
     let folder_temp = worker_folders.filter((folder) => Object.keys(folder)[0] !== key);
