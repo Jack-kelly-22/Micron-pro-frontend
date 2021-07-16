@@ -21,10 +21,10 @@ import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import TableList from "views/Tables.js";
 import NewJob from "views/NewJob.js";
-// import Maps from "views/Map.js";
 import UserPage from "views/User.js";
 import SettingsPage from "views/SettingsPage.js";
 import PrevJobsPage from "views/PrevJobsPage.js";
+import Login from "views/Login";
 
 import { defaults } from "chart.js";
 
@@ -85,6 +85,13 @@ var routes = [
     name: "Table List",
     icon: "nc-icon nc-tile-56",
     component: TableList,
+    layout: "/admin",
+  },
+
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
     layout: "/admin",
   },
   
