@@ -13,6 +13,8 @@ import {
   Col,
   ListGroup,
   ListGroupItem,
+  ListGroupItemText,
+  ListGroupItemHeading,
 } from "reactstrap";
 import axios from "axios";
 
@@ -79,8 +81,15 @@ function FolderView(props) {
       let head = { headers: { Authorization: "Bearer " + token }};
       axios.post(process.env.REACT_APP_BACKEND_URL + '/workers_online',data,head)
       .then(response => {
-        setWorkerData(response.data.workers);
-        console.log(response.data.workers);
+        if(response.status===200){
+          setWorkerData(response.data.workers);
+          console.log(response.data.workers);
+        }
+        else if(response.status===401){
+          console.log(response.data.msg);
+
+          
+        }
         if (response.data.workers.length != 0){
           setWorkerSelected(response.data.workers[0]);
           
@@ -107,20 +116,24 @@ function FolderView(props) {
     return (
       <ListGroupItem key={worker.id} value={worker} color={worker.name===worker_selected.name?"primary":"secondary"}>
         <div>
-          
-          
-          <h5>{worker.name}</h5>
+          <Row>
+            <Col>
+            <ListGroupItemHeading>{worker.name}</ListGroupItemHeading>
+            </Col>
+            <Col>
           <Button onClick={()=>get_folders(worker_selected)}>select</Button>
-          
-          </div></ListGroupItem>    
+          </Col>
+          </Row>
+          </div>
+      </ListGroupItem>    
     );
   });
   
   
   return (
-    <div className="content">
+    <div>
       <Row>
-        <Col className="ml-auto mr-auto" md="6">
+        <Col md="12">
         <Card className="card-user">
             <CardHeader>
               <CardTitle tag="h5">Select Host Computer</CardTitle>
@@ -128,7 +141,6 @@ function FolderView(props) {
 
             <ListGroup className="ml-auto">
               {worker_selections}
-
             </ListGroup>
             
           </Card>

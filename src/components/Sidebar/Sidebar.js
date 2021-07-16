@@ -102,7 +102,7 @@ function Sidebar(props) {
                 Log out
               </Button>
             ) : (
-              <NavLink to={login_route.layout + login_route.path}>
+              <NavLink to={"/admin/login"}>
                 <Button style={{ width: "90%" }}>Sign in</Button>
               </NavLink>
             )}

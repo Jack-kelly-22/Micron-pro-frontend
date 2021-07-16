@@ -76,10 +76,10 @@ function JobOptions(props) {
       
     };
     console.log("save config button has been clicked");
-    // let token = sessionStorage.getItem("access_token");
-    // let head = { headers: { Authorization: "Bearer " + token } };
+    let token = sessionStorage.getItem("access_token");
+    let head = { headers: { Authorization: "Bearer " + token } };
     axios
-      .post(process.env.REACT_APP_BACKEND_URL + "/new_config", { config: config_preset })
+      .post(process.env.REACT_APP_BACKEND_URL + "/new_config", { config: config_preset },head)
       .then((result) => {
         if (result) {
           console.log("finished updating user", result);
@@ -109,18 +109,28 @@ function JobOptions(props) {
     setConfigs(conf);
   }
   function post_job() {
+    let config_preset = {
+      config_name: config_name,
+      thresh: Number(thresh_value),
+      use_alt: false,
+      alt_thresh: Number(alt_thres),
+      multi: false,
+      scale: Number(scale),
+      num_circles: Number(num_circles),
+      crop: false,
+      boarder: crop_size,
+      min_porosity: Number(min_pore),
+      max_porosity: Number(max_pore),
+      max_allowed: Number(max_diameter),
+      min_ignore:Number(ignore_size),
+      Notes: Notes,
+      fiber_type: "dark",
+      debug: false
+      
+    }
     let job = {
       job_name: job_name,
-      Notes: Notes,
-      scale: scale,
-      thresh_value: thresh_value,
-      num_circles: num_circles,
-      alt_thres: alt_thres,
-      crop_size: crop_size,
-      min_pore: min_pore,
-      max_pore: max_pore,
-      max_diameter: max_diameter,
-      ignore_size: ignore_size,
+      constants: config_preset,
       status: "In Progress",
     };
     console.log("Start job button has been clicked");

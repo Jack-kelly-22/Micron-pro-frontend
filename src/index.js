@@ -38,7 +38,7 @@ import Login from 'views/Login';
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/login" render={() => <Login />} />
+      <Route path="/admin/login" component={Login}/>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/admin/prev_jobs" component={PrevJobsPage} />
       <Redirect to="/admin/dashboard" />
