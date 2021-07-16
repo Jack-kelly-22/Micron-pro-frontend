@@ -50,7 +50,7 @@ function FolderView(props) {
     else{
     console.log("get_folders started",worker_selected);
     // console.log(worker_selected);
-    let token = sessionStorage.getItem("token");
+    let token = sessionStorage.getItem("access_token");
     let head = { headers: { Authorization: "Bearer " + token }};
     
     axios
