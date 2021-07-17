@@ -24,10 +24,19 @@ import NewJob from "views/NewJob.js";
 import UserPage from "views/User.js";
 import SettingsPage from "views/SettingsPage.js";
 import PrevJobsPage from "views/PrevJobsPage.js";
-
+import Login from "views/Login.js";
 import { defaults } from "chart.js";
+import {is_logged_in,get_user} from "functions/LocalStorageHelper.js";
 
 var routes = [
+
+  {
+    path: "/login",
+    name: is_logged_in()?get_user().user_name:"Login",
+    icon: "nc-icon nc-circle-10",
+    component: Login,
+    layout: "/admin",
+  },
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -65,34 +74,6 @@ var routes = [
     layout: "/admin",
   },
   
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "nc-icon nc-bell-55",
-    component: Notifications,
-    layout: "/admin",
-  },
-  {
-    path: "/user-page",
-    name: "User Profile",
-    icon: "nc-icon nc-single-02",
-    component: UserPage,
-    layout: "/admin",
-  },
-  {
-    path: "/tables",
-    name: "Table List",
-    icon: "nc-icon nc-tile-56",
-    component: TableList,
-    layout: "/admin",
-  },
-
-  // {
-  //   path: "/login",
-  //   name: "Login",
-  //   component: Login,
-  //   layout: "/admin",
-  // },
   
 ];
 export default routes;
