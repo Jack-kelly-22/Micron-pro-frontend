@@ -132,11 +132,6 @@ function Header(props) {
                 </p>
               </Link>
             </NavItem>
-            <NavItem>
-              <Link to={is_logged_in()?"/admin/dashboard":"/login"} className="nav-link btn-rotate">
-            <h5>{is_logged_in()?get_user().user_name: "Log In"}</h5>
-            </Link>
-            </NavItem>
           </Nav>
         </Collapse>
       </Container>
