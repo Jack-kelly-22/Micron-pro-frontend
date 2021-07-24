@@ -32,7 +32,7 @@ var routes = [
 
   {
     path: "/login",
-    name: is_logged_in()?get_user().user_name:"Login",
+    name: "Login",
     icon: "nc-icon nc-circle-10",
     component: Login,
     layout: "/admin",
