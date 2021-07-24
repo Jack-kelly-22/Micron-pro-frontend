@@ -32,10 +32,10 @@ function JobOptions(props) {
   const [scale, setScale] = useState("");
   //image options
   const [configs, setConfigs] = useState([]);
-  const [thresh_value, setThreshValue] = useState(0);
+  const [thresh_value, setThreshValue] = useState("");
   const [num_circles, setNumCircles] = useState("");
   const [alt_thres, setAltThresh] = useState(false);
-  const [crop_size, setCropSize] = useState("0");
+  const [crop_size, setCropSize] = useState("");
   const [config_name, setConfigName] = useState("");
   //pores
   const [min_pore, setMinPore] = useState("");
@@ -44,6 +44,12 @@ function JobOptions(props) {
   const [ignore_size, setIgnoreSize] = useState("");
 
   const [err_msg, setErrMsg] = useState("");
+
+  function resetStateVars(){
+    setJobName(job_name+"1");
+    setErrMsg("");
+    props.resetStateVars()
+  }
 
   function load_config(i) {
     let new_config = configs[i];
@@ -58,6 +64,11 @@ function JobOptions(props) {
     setMaxPore(new_config.max_pore);
     setMaxDiameter(new_config.max_diameter);
     setIgnoreSize(new_config.ignore_size);
+    setCropSize(new_config.crop_size);
+    setThreshValue(new_config.thresh_value);
+    setScale(new_config.scale);
+    
+    
   }
 
   function post_config() {
@@ -74,6 +85,7 @@ function JobOptions(props) {
       max_diameter: max_diameter,
       ignore_size: ignore_size,
       
+      
     };
     console.log("save config button has been clicked");
     let token = sessionStorage.getItem("access_token");
@@ -84,7 +96,7 @@ function JobOptions(props) {
         if (result) {
           console.log("finished updating user", result);
           if (result.status === 200) {
-            setErrMsg("Job has started... refresh page to start another");
+            setErrMsg("Config has been saved refresh to save another");
           } else {
             setErrMsg(result.data["msg"]);
           }
@@ -130,8 +142,10 @@ function JobOptions(props) {
     }
     let job = {
       job_name: job_name,
+      worker_name: props.worker_name,
       constants: config_preset,
       status: "In Progress",
+      folders: props.folders.map(f => f.name),
     };
     console.log("Start job button has been clicked");
     let token = sessionStorage.getItem("access_token");
@@ -142,7 +156,9 @@ function JobOptions(props) {
         if (result) {
           console.log("finished updating user", result);
           if (result.status === 200) {
+            props.setFolders([])
             setErrMsg("Job has started... refresh page to start another");
+            resetStateVars();
           } else {
             setErrMsg(result.data["msg"]);
           }
@@ -295,6 +311,14 @@ function JobOptions(props) {
                       defaultValue={thresh_value}
                       type="text"
                       onChange={(v) => setThreshValue(v.target.value)}
+                    />
+                  </Col>
+                  <Col className="pl-1" md="4">
+                    <label>Scale</label>
+                    <Input
+                      defaultValue={scale}
+                      type="text"
+                      onChange={(v) => setScale(v.target.value)}
                     />
                   </Col>
                 </Row>

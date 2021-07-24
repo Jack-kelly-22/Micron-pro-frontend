@@ -33,7 +33,7 @@ function FolderView(props) {
   function delete_folder(key){
     let token = sessionStorage.getItem("access_token");
     let head = { headers: { Authorization: "Bearer " + token }};
-    axios.post(process.env.REACT_APP_BACKEND_URL + "/delete", {...worker_selected, folder: key},head);
+    axios.post(process.env.REACT_APP_BACKEND_URL + "/delete", {name:worker_selected.name, folder: key},head);
     let folder_temp = worker_folders.filter((folder) => Object.keys(folder)[0] !== key);
     setWorkerFolders(folder_temp);
   }
@@ -61,6 +61,7 @@ function FolderView(props) {
           if (result.status === 200) {
             console.log("success");
             setWorkerFolders(result.data.folders);
+            props.setSelectedWorker(worker_selected);
           } else {
             setErrMsg(result.data["msg"]);
           }
@@ -92,6 +93,7 @@ function FolderView(props) {
         }
         if (response.data.workers.length != 0){
           setWorkerSelected(response.data.workers[0]);
+          props.setSelectedWorker(response.data.workers[0]);
           
           
         }

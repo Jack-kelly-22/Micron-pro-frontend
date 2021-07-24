@@ -30,11 +30,7 @@ import {
   Col,
 } from "reactstrap";
 // core components
-import {
-  dashboard24HoursPerformanceChart,
-  dashboardEmailStatisticsChart,
-  dashboardNASDAQChart,
-} from "variables/charts.js";
+
 import axios from "axios";
 import JobList from "../components/custom/JobList.js";
 
@@ -153,74 +149,19 @@ function Dashboard() {
               </CardHeader>
               <CardBody>
                 <Row>
-                  <Col md="4" xs="5">
-                    <JobList header={"In Progress"}/>
-                    </Col>
-                    <Col md="4" xs="5">
-                    {/* <JobList header={"Recently Finished"}/> */}
-                    </Col>
-                    <Col md="4" xs="5">
-                    <JobList header={"Favorited Jobs"}/>
-                    </Col>
+                  <Col>
+                  <JobList header={"Complete"}/>
+                  </Col>
+                  
                 </Row>
               </CardBody>
             </Card>
           </Col>
         </Row>
-        <Row>
-          <Col md="4">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h5">Email Statistics</CardTitle>
-                <p className="card-category">Last Campaign Performance</p>
-              </CardHeader>
-              <CardBody style={{ height: "266px" }}>
-                <Pie
-                  data={dashboardEmailStatisticsChart.data}
-                  options={dashboardEmailStatisticsChart.options}
-                />
-              </CardBody>
-              <CardFooter>
-                <div className="legend">
-                  <i className="fa fa-circle text-primary" /> Opened{" "}
-                  <i className="fa fa-circle text-warning" /> Read{" "}
-                  <i className="fa fa-circle text-danger" /> Deleted{" "}
-                  <i className="fa fa-circle text-gray" /> Unopened
-                </div>
-                <hr />
-                <div className="stats">
-                  <i className="fa fa-calendar" /> Number of emails sent
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-          <Col md="8">
-            <Card className="card-chart">
-              <CardHeader>
-                <CardTitle tag="h5">NASDAQ: AAPL</CardTitle>
-                <p className="card-category">Line Chart with Points</p>
-              </CardHeader>
-              <CardBody>
-                <Line
-                  data={dashboardNASDAQChart.data}
-                  options={dashboardNASDAQChart.options}
-                  width={400}
-                  height={100}
-                />
-              </CardBody>
-              <CardFooter>
-                <div className="chart-legend">
-                  <i className="fa fa-circle text-info" /> Tesla Model S{" "}
-                  <i className="fa fa-circle text-warning" /> BMW 5 Series
-                </div>
-                <hr />
-                <div className="card-stats">
-                  <i className="fa fa-check" /> Data information certified
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-        </Row>
+        {/* <Row> */}
+        
+        <iframe src="https://onedrive.live.com/embed?cid=228116ED5800435C&resid=228116ED5800435C%21116&authkey=ANGJOybguZ9peKs" width="165" height="128" frameborder="0" scrolling="no"></iframe>
+        {/* </Row> */}
       </div>
     </>
   );

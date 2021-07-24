@@ -29,8 +29,9 @@ function PrevJobsPage() {
 
   useEffect(() => {
     async function get_jobs(data,setter){
-      
-      axios.post(process.env.REACT_APP_BACKEND_URL + '/get_jobs',data)
+      let token = sessionStorage.getItem("access_token");
+      let head = { headers: { Authorization: "Bearer " + token } };
+      axios.post(process.env.REACT_APP_BACKEND_URL + '/get_jobs',data,head)
       .then(response => {
         setInProgressJobs(response.data.jobs);
         console.log(response.data.jobs);
@@ -39,7 +40,7 @@ function PrevJobsPage() {
     }
     
     var in_progress_data = {status: "in_progress"};
-    var completed_data = {status: "completed"};
+    var completed_data = {status: "Completed"};
     var to_review_data = {status: "to_review"};
     get_jobs(in_progress_data,setInProgressJobs);
     get_jobs(completed_data,setCompletedJobs);

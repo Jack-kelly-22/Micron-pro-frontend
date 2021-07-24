@@ -1,48 +1,90 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import {React, useState,useEffect} from "react";
+import { React, useState, useEffect } from "react";
 
 // reactstrap components
 import {
-    Button,
-    Badge,
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    CardTitle,
-    FormGroup,
-    Form,
-    Input,
-    Row,
-    Col,
-    ListGroup,
-    ListGroupItem,
-  } from "reactstrap";
-  import axios from "axios";
+  Button,
+  Badge,
+  Form,
+  Input,
+  Row,
+  Col,
+  ListGroup,
+  ListGroupItem,
+} from "reactstrap";
+import axios from "axios";
 
-import FolderView from "../components/custom/FolderView.js"
+import FolderView from "../components/custom/FolderView.js";
+import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import JobOptions from "../components/custom/JobOptions.js";
+import classnames from "classnames";
+import {get_users} from "../functions/helper.js";
 function SettingsPage() {
-    
+  const [activeTab, setActiveTab] = useState("1");
+  const [users, setUsers] = useState([]);
+  const toggle = (tab) => {
+    if (activeTab !== tab) setActiveTab(tab);
+  };
+
+  useEffect(() => {
+    get_users().then(data => {setUsers(data);});
+  }, []);
+
   return (
-    <JobOptions type="settings" buttonText="Save Config"/>);
+    <div className="content">
+      <Nav tabs>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === "1" })}
+            onClick={() => {
+              toggle("1");
+            }}
+          >
+            Tab1
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === "2" })}
+            onClick={() => {
+              toggle("2");
+            }}
+          >
+            Configurations
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === "2" })}
+            onClick={() => {
+              toggle("2");
+            }}
+          >
+            System Info
+          </NavLink>
+        </NavItem>
+      </Nav>
+      <TabContent activeTab={activeTab}>
+        <TabPane tabId="1">
+          <h4>Users</h4>
+          <ListGroup>
+            
+            {users!==undefined ?users.map(user => (
+              <ListGroupItem key={user.id}>
+                {user.user_name}
+                dfdsaf
+              </ListGroupItem>
+            )):null }
+          </ListGroup>
+        </TabPane>
+        <TabPane tabId="2">
+          <h4>Create Configurations</h4>
+          <Row>
+            <JobOptions type="settings" buttonText="Save Config" />
+          </Row>
+        </TabPane>
+      </TabContent>
+    </div>
+  );
 }
 
 export default SettingsPage;

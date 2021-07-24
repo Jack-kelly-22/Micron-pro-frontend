@@ -30,6 +30,7 @@ function NewJob() {
   //Job info
   const [job_name, setJobName] = useState("defaultname");
   const [folders, setFolders] = useState([]);
+  const [selected_worker, setSelectedWorker] = useState(null);
   //image options
 
   function add_folder(folder, size) {
@@ -46,16 +47,21 @@ function NewJob() {
     console.log("new_folders:", new_folders);
   }
 
+  function resetStateVars(){
+    setJobName("");
+    setFolders([]);
+  }
+
   return (
     <>
       <div className="content">
         <Row>
           <Col className="mr-auto" md="6">
             <h5>Create New Job</h5>
-            <JobOptions header="Create New Job" buttonText="Start Job" />
+            <JobOptions header="Create New Job" buttonText="Start Job"  resetStateVars={resetStateVars} setFolders={setFolders} folders={folders} worker_name={selected_worker===null?null:selected_worker.name}/>
           </Col>
           <Col md="6">
-            <FolderView add_folder={add_folder}></FolderView>
+            <FolderView add_folder={add_folder} setSelectedWorker={setSelectedWorker}></FolderView>
             <h5>Selected folders</h5>
             <ListGroup>
               {folders.map(function (folder, i) {

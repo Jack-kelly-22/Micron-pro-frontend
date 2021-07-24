@@ -17,7 +17,7 @@
 
 */
 import React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Nav, NavItem, Button } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
@@ -31,15 +31,13 @@ var ps;
 function Sidebar(props) {
   const sidebar = React.useRef();
   // verifies if routeName is the one active (in browser input)
-  const login_route = {route:"/admin/login",name: "Login",
-    component: Login,
-    layout: "/admin",
-}
+  
   const [logged_in, setLogged_in] = useState(false);
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   };
-  React.useEffect(() => {
+  useEffect(() => {
+    setLogged_in(is_logged_in());
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(sidebar.current, {
         suppressScrollX: true,
@@ -51,7 +49,7 @@ function Sidebar(props) {
         ps.destroy();
       }
     };
-  });
+  },[]);
   return (
     <div
       className="sidebar"
@@ -69,6 +67,9 @@ function Sidebar(props) {
       <div className="sidebar-wrapper" ref={sidebar}>
         <Nav>
           {props.routes.map((prop, key) => {
+            if(prop.path === "/login" && logged_in){
+              return (<div></div>)
+            }
             return (
               <li
                 className={
@@ -96,7 +97,6 @@ function Sidebar(props) {
                     signOut();
                     setLogged_in(false);
                   }
-                  // clear_user();
                 }
               >
                 Log out
