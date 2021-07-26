@@ -18,11 +18,16 @@ import {
   ListGroupItem,
   ListGroupItemText,
   ListGroupItemHeading,
+  Toast,
+  ToastBody,
+  ToastHeader,
+  ToastHeaderText,
+  ToastFooter,
+  ToastFooterText,
 } from "reactstrap";
 import axios from "axios";
 
-
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
 function JobOptions(props) {
@@ -43,12 +48,14 @@ function JobOptions(props) {
   const [max_diameter, setMaxDiameter] = useState("");
   const [ignore_size, setIgnoreSize] = useState("");
 
+  const [show, setShow] = useState(false);
   const [err_msg, setErrMsg] = useState("");
+  const toggle = () => setShow(false);
 
-  function resetStateVars(){
-    setJobName(job_name+"1");
+  function resetStateVars() {
+    setJobName(job_name + "1");
     setErrMsg("");
-    props.resetStateVars()
+    props.resetStateVars();
   }
 
   function load_config(i) {
@@ -67,8 +74,6 @@ function JobOptions(props) {
     setCropSize(new_config.crop_size);
     setThreshValue(new_config.thresh_value);
     setScale(new_config.scale);
-    
-    
   }
 
   function post_config() {
@@ -84,14 +89,16 @@ function JobOptions(props) {
       max_pore: max_pore,
       max_diameter: max_diameter,
       ignore_size: ignore_size,
-      
-      
     };
     console.log("save config button has been clicked");
     let token = sessionStorage.getItem("access_token");
     let head = { headers: { Authorization: "Bearer " + token } };
     axios
-      .post(process.env.REACT_APP_BACKEND_URL + "/new_config", { config: config_preset },head)
+      .post(
+        process.env.REACT_APP_BACKEND_URL + "/new_config",
+        { config: config_preset },
+        head
+      )
       .then((result) => {
         if (result) {
           console.log("finished updating user", result);
@@ -111,7 +118,11 @@ function JobOptions(props) {
   function remove_config(config_name, key) {
     console.log(config_name, key);
 
-    let head = { headers: { Authorization: "Bearer " + sessionStorage.getItem("access_token") } };
+    let head = {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("access_token"),
+      },
+    };
     axios.post(process.env.REACT_APP_BACKEND_URL + "/remove_config", {
       config_name: config_name,
     });
@@ -134,18 +145,17 @@ function JobOptions(props) {
       min_porosity: Number(min_pore),
       max_porosity: Number(max_pore),
       max_allowed: Number(max_diameter),
-      min_ignore:Number(ignore_size),
+      min_ignore: Number(ignore_size),
       Notes: Notes,
       fiber_type: "dark",
-      debug: false
-      
-    }
+      debug: false,
+    };
     let job = {
       job_name: job_name,
       worker_name: props.worker_name,
       constants: config_preset,
       status: "In Progress",
-      folders: props.folders.map(f => f.name),
+      folders: props.folders.map((f) => f.name),
     };
     console.log("Start job button has been clicked");
     let token = sessionStorage.getItem("access_token");
@@ -156,8 +166,9 @@ function JobOptions(props) {
         if (result) {
           console.log("finished updating user", result);
           if (result.status === 200) {
-            props.setFolders([])
+            props.setFolders([]);
             setErrMsg("Job has started... refresh page to start another");
+            setShow(true);
             resetStateVars();
           } else {
             setErrMsg(result.data["msg"]);
@@ -176,14 +187,21 @@ function JobOptions(props) {
       let head = { headers: { Authorization: "Bearer " + token } };
       let data = { tester: "test" };
       axios
-        .post(process.env.REACT_APP_BACKEND_URL + "/get_configs", data,head)
+        .post(process.env.REACT_APP_BACKEND_URL + "/get_configs", data, head)
         .then((response) => {
+          if (response.status === 200) {
           setConfigs(response.data.configs);
+          // setErrMsg("error loading configs please refresh");
           console.log(response.data.configs);
+          }
+          else{
+            console.log("error loading configs please refresh");
+            // setErrMsg(response.data.msg);
+          }
         })
         .catch((error) => {
           console.log(error);
-          setErrMsg(error.response);
+          setErrMsg(Object.toString(error) + " please refresh");
         });
     }
 
@@ -194,6 +212,13 @@ function JobOptions(props) {
     <div className="content">
       <Row>
         <Col>
+        <Toast color="black" isOpen={show}>
+                  <ToastHeader icon="success" toggle={toggle} >Reactstrap</ToastHeader>
+                  <ToastBody>
+                    This is a toast on a white background — check it out!
+                    {err_msg}
+                  </ToastBody>
+                </Toast>
           <h6>
             {props.type === "settings"
               ? "Create config preset"
@@ -365,7 +390,8 @@ function JobOptions(props) {
                 >
                   {props.buttonText}
                 </Button>
-                <h6>{JSON.stringify(err_msg)}</h6>
+                {/* <h6>{JSON.stringify(err_msg)}</h6> */}
+                
               </div>
             </Row>
           </Card>

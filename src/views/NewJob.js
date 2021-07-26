@@ -17,6 +17,7 @@ import {
   ListGroup,
   ListGroupItem,
   ListGroupItemText,
+  
 } from "reactstrap";
 import axios from "axios";
 
@@ -55,6 +56,7 @@ function NewJob() {
   return (
     <>
       <div className="content">
+      
         <Row>
           <Col className="mr-auto" md="6">
             <h5>Create New Job</h5>
