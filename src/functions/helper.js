@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export function review_images(job_id, images, value){
     let data = {action:"review",job_id:job_id, images: images, value:value}
+    console.log("Reveiwing images for job: " + job_id);
     let token = sessionStorage.getItem("access_token");
     let head = { headers: { Authorization: "Bearer " + token } };
     axios
