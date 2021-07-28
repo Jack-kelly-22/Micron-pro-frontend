@@ -26,12 +26,12 @@ export default function JobItem(job) {
   const [dropdownOpen2, setDropdownOpen2] = useState(false);
   const [reviewed_images, setReview_images] = useState([]);
   return (
-    <div style={{ marginBottom: "50px" }}>
-      <Row>
-        <h6 className="pr-2">{job.job_name} </h6>
+    <div className ="bg-dark" style={{ marginBottom: "50px",borderRadius:10 }}>
+      <Row className="bg-dark ml-auto mr-auto" stype={{borderRadius:10}} >
+        <h6 className=" pr-3 pl-3 pt-1 text-light bg-dark">{job.job_name} </h6>
         <Badge
           pill
-          color={job.status === "In Progress" ? "warning" : "success"}
+          color={job.status === "In Progress" ? "warning" :  job.status==="Complete"?"info":"success"}
         >
           {job.status}
         </Badge>
@@ -41,39 +41,39 @@ export default function JobItem(job) {
           </Badge>
         ) : null}
       </Row>
-      <Row className="jobItem">
-        <strong># Images</strong>
-        <p className="pr-4">&ensp; {job.num_images}</p>
-        <strong>Pores Inspected</strong>
-        <p className="pr-4">&ensp; {job.num_pores}</p>
-        <strong>Largest Diameter</strong>
-        <p className="pr-4">&ensp; {job.largest_pore}</p>
-        <strong>Avg porosity</strong>
-        <p className="pr-4">
-          &ensp; {() => Object.toString(job.avg_pore).slice(0, 4)}
+      <Row className="jobItem pl-4">
+        <strong className="text-light"> # Images</strong>
+        <p className="pr-4 text-light">&ensp; {job.num_images}</p>
+        <strong className="pr-2 text-light">Pores Inspected</strong>
+        <p className="pr-4 text-light">&ensp; {job.num_pores}</p>
+        <strong className="pr-2 text-light">Largest Diameter</strong>
+        <p className="pr-4 text-light">&ensp; {job.largest_pore}</p>
+        <strong className="text-light">Avg porosity</strong>
+        <p className="pr-4 text-light">
+          {() => Object.toString(job.avg_pore).slice(0, 4)}
         </p>
-        <strong>Worker </strong>
-        <p className="pr-4">&ensp; {job.worker_name}</p>
+        <strong className="text-light" >Worker </strong>
+        <p className="pr-2 text-light">&ensp; {job.worker_name}</p>
       </Row>
       <Collapse isOpen={dropdownOpen}>
-        <Row>
-          <strong>
+        <Row className="ml-auto">
+          <strong className="text-light">
             {job.img_review !== undefined ? job.img_review.length : 0} Images To
             Review
           </strong>
-          <strong className="pl-4">Fail Reason</strong>
-          <strong className="pl-4">Porosity</strong>
-          <strong className="pl-4"># Failed Pores</strong>
+          <strong className="pl-4 text-light">Fail Reason</strong>
+          <strong className="pl-4 text-light"text-light>Porosity</strong>
+          <strong className="pl-4 text-light"># Failed Pores</strong>
         </Row>
-        <Row>
+        <Row className="ml-auto mr-auto">
           <Col>
             {job.img_review !== undefined
               ? job.img_review.map((img, i) => (
-                  <Row className="bg-light">
-                    <p className="pl-2 pr-4 pt-3">{img.img_name}</p>
-                    <p className="pl-2 pr-4 pt-3">{Math.round(img.porosity*1000)/10}</p>
-                    <p className="pr-4 pt-3">{img.fail_reason.slice(0, 1)}</p>
-                    <p className="pr-2 pt-3">{img.num_violated}</p>
+                  <Row className="bg-dark">
+                    <p className="pl-2 pr-4 pt-3 text-light">{img.img_name}</p>
+                    <p className="pl-2 pr-4 pt-3 text-light">{Math.round(img.porosity*1000)/10}</p>
+                    <p className="pr-4 pt-3 text-light">{img.fail_reason.slice(0, 1)}</p>
+                    <p className="pr-2 pt-3 text-light">{img.num_violated}</p>
                     {/* button adds image to reviewed_images  */}
                     <Button
                       color={
@@ -96,10 +96,13 @@ export default function JobItem(job) {
               : null}
           </Col>
         </Row>
-      </Collapse>
-      <Row>Reviewed Images: {reviewed_images.toString()}</Row>
-
       <Row>
+
+        <p className="text-light">Reviewed Images: {reviewed_images.toString()}</p>
+        </Row>
+      </Collapse>
+
+      <Row className="pl-3">
         <Button size="sm" color="secondary" onClick={() => job.view_job(job)}>
           Spreadsheet
         </Button>

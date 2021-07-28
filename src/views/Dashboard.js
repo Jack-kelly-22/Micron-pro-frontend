@@ -58,7 +58,7 @@ function Dashboard() {
       <div className="content">
         <Row>
           <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
+            <Card className="card-stats bg-dark">
               <CardBody>
                 <Row>
                   <Col md="4" xs="5">
@@ -69,7 +69,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">images processed</p>
-                      <CardTitle tag="p">{stats.total_images}</CardTitle>
+                      <CardTitle className="text-light">{stats.total_images}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -78,7 +78,7 @@ function Dashboard() {
             </Card>
           </Col>
           <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
+            <Card className="card-stats bg-dark">
               <CardBody>
                 <Row>
                   <Col md="4" xs="5">
@@ -89,7 +89,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">In-progress Jobs</p>
-                      <CardTitle tag="p">{stats.in_progress}</CardTitle>
+                      <CardTitle className="text-light">{stats.in_progress}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -99,7 +99,7 @@ function Dashboard() {
             </Card>
           </Col>
           <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
+            <Card className="card-stats bg-dark">
               <CardBody>
                 <Row>
                   <Col md="4" xs="5">
@@ -110,7 +110,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">Images to be reviewed</p>
-                      <CardTitle tag="p">{stats.review_image_count}</CardTitle>
+                      <CardTitle className="text-light">{stats.review_image_count}</CardTitle>
                       <p />
                       
                     </div>
@@ -120,7 +120,7 @@ function Dashboard() {
             </Card>
           </Col>
           <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
+            <Card className="card-stats bg-dark" >
               <CardBody>
                 <Row>
                   <Col md="4" xs="5">
@@ -131,7 +131,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">Workers online</p>
-                      <CardTitle tag="p">{stats.workers_online}</CardTitle>
+                      <p className="card-category text-light">{stats.workers_online}</p>
                       <p />
                     </div>
                   </Col>

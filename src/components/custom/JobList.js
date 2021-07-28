@@ -31,8 +31,8 @@ function JobList(props) {
   function delete_job(job) {
     // deletes job from view and removes from db and deletes folder on host
     let head = { headers: { Authorization: "Bearer " + sessionStorage.getItem("access_token") } };
-    job_list.filter((j) => j.job_id !== job.job_id);
-    setJobList(job_list);
+    let new_job_list = job_list.filter((j) => j.job_id !== job.job_id);
+    setJobList(new_job_list);
     axios.post(process.env.REACT_APP_BACKEND_URL + "/update_job", {
       job_id: job.job_id,
       worker_name: job.worker_name,

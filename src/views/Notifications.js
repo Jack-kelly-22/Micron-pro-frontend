@@ -75,7 +75,6 @@ function Notifications() {
     notificationAlert.current.notificationAlert(options);
   };
   return (
-    <>
       <div className="content">
         <NotificationAlert ref={notificationAlert} />
         <Row>
@@ -279,7 +278,6 @@ function Notifications() {
           </Col>
         </Row>
       </div>
-    </>
   );
 }
 
