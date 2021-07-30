@@ -6,7 +6,7 @@
  * @author Thread News
  *
  * Created at     : 2021-05-28 10:23:45
- * Last modified  : 2021-07-15 08:59:34
+ * Last modified  : 2021-07-28 04:16:21
  */
 
 //react imports
@@ -25,19 +25,15 @@ require("dotenv").config();
 console.log();
 
 export default function Login(props) {
-
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  
 
   const is_login = props.is_login;
 
   function signOut() {
     sessionStorage.clear();
   }
-
-  
 
   function login() {
     console.log("starting login...");
@@ -69,7 +65,7 @@ export default function Login(props) {
     <div className="outer">
       <div className="inner">
         <form>
-          <h3 className="loginText"color="black">
+          <h3 className="loginText" color="black">
             Log in
           </h3>
           {is_login ? null : (
@@ -99,10 +95,10 @@ export default function Login(props) {
               className="btn btn-dark btn-lg btn-block"
               href="/admin/dashboard"
               onClick={login}
-              >
+            >
               Log in
             </button>
-            </LinkContainer>
+          </LinkContainer>
         </form>
       </div>
     </div>

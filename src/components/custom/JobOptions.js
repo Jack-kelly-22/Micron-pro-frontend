@@ -144,7 +144,7 @@ function JobOptions(props) {
       boarder: crop_size,
       min_porosity: Number(min_pore),
       max_porosity: Number(max_pore),
-      max_allowed: Number(max_diameter),
+       max_allowed: Number(max_diameter),
       min_ignore: Number(ignore_size),
       Notes: Notes,
       fiber_type: "dark",
@@ -212,10 +212,10 @@ function JobOptions(props) {
     <div className="content">
       <Row>
         <Col>
-        <Toast color="black" isOpen={show}>
-                  <ToastHeader icon="success" toggle={toggle} >Reactstrap</ToastHeader>
+        <Toast color="dark" className="bg-success" isOpen={show}>
+                  <ToastHeader icon="success" toggle={toggle}  >Reactstrap</ToastHeader>
                   <ToastBody>
-                    This is a toast on a white background — check it out!
+                    Job started. Please refresh page to start another
                     {err_msg}
                   </ToastBody>
                 </Toast>
