@@ -18,7 +18,8 @@ import {
 } from "reactstrap";
 import axios from "axios";
 
-
+const dotenv = require("dotenv");
+dotenv.config();
 
 
 function FolderView(props) {
