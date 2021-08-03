@@ -60,7 +60,7 @@ function FolderView(props) {
         if (result) {
           console.log("finished updating user", result);
           if (result.status === 200) {
-            console.log("success");
+            console.log("success",result.data);
             setWorkerFolders(result.data.folders);
             props.setSelectedWorker(worker_selected);
           } else {
@@ -73,9 +73,9 @@ function FolderView(props) {
   
   
   useEffect(() => {
-    const dotenv = require('dotenv');
-    let conf = dotenv.config();
-    console.log(conf)
+    // const dotenv = require('dotenv');
+    // let conf = dotenv.config();
+    // console.log(conf)
     
     async function get_worker_data(){
       let data = {tester:'test'};
@@ -106,7 +106,6 @@ function FolderView(props) {
     }
   
     get_worker_data();
-    // get_folders();
 
   }
   ,[]);
