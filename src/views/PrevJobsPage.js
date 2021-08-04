@@ -18,7 +18,7 @@ import {
   ListGroupItem,
 } from "reactstrap";
 import axios from "axios";
-import JobItem from "../components/custom/JobItem.js"
+import JobList from "components/custom/JobList.js";
 
 function PrevJobsPage() {
   //Job info
@@ -52,10 +52,14 @@ function PrevJobsPage() {
   return (
     
       <div className="content">
-        {in_progress_jobs.map(job => {
-          return (
-            <JobItem {...job.job}/>
-          );})}
+        <Row>
+          <Col md={6}>
+            <JobList header="Complete"/>
+          </Col>
+          {/* <Col md={6}>
+            <JobList header="Flagged"/>
+          </Col> */}
+        </Row>
       </div>
   );
 }

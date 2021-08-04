@@ -40,17 +40,14 @@ function FolderView(props) {
   }
 
   function get_folders(v) {
-    let data = {
-      host: "name",
-      limit: "20",
-    };
+
     if (worker_selected.name===undefined){
       setWorkerFolders([]);
       return;
     }
     else{
     console.log("get_folders started",worker_selected);
-    // console.log(worker_selected);
+    
     let token = sessionStorage.getItem("access_token");
     let head = { headers: { Authorization: "Bearer " + token }};
     
@@ -58,13 +55,14 @@ function FolderView(props) {
       .post(process.env.REACT_APP_BACKEND_URL + "/worker_folders",worker_selected,head)
       .then((result) => {
         if (result) {
-          console.log("finished updating user", result);
+          console.log("folders fetched .... ", result);
           if (result.status === 200) {
             console.log("success",result.data);
             setWorkerFolders(result.data.folders);
             props.setSelectedWorker(worker_selected);
           } else {
             setErrMsg(result.data["msg"]);
+            console.log("error ", result.data["msg"]);
           }
         }
       });
@@ -73,29 +71,24 @@ function FolderView(props) {
   
   
   useEffect(() => {
-    // const dotenv = require('dotenv');
-    // let conf = dotenv.config();
-    // console.log(conf)
     
     async function get_worker_data(){
       let data = {tester:'test'};
       let token = sessionStorage.getItem("access_token");
       let head = { headers: { Authorization: "Bearer " + token }};
       axios.post(process.env.REACT_APP_BACKEND_URL + '/workers_online',data,head)
-      .then(response => {
+      .then(response 
         if(response.status===200){
           setWorkerData(response.data.workers);
           console.log(response.data.workers);
         }
         else if(response.status===401){
           console.log(response.data.msg);
-
           
         }
         if (response.data.workers.length != 0){
           setWorkerSelected(response.data.workers[0]);
           props.setSelectedWorker(response.data.workers[0]);
-          
           
         }
       })
