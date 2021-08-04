@@ -40,7 +40,7 @@ function FolderView(props) {
   }
 
   function get_folders(worker_select) {
-
+    setWorkerSelected(worker_select);
     if (worker_select.name===undefined){
       setWorkerFolders([]);
       return;
