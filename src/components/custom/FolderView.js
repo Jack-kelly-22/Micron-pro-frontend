@@ -39,9 +39,9 @@ function FolderView(props) {
     setWorkerFolders(folder_temp);
   }
 
-  function get_folders(v) {
+  function get_folders(worker_select) {
 
-    if (worker_selected.name===undefined){
+    if (worker_select.name===undefined){
       setWorkerFolders([]);
       return;
     }
@@ -52,14 +52,15 @@ function FolderView(props) {
     let head = { headers: { Authorization: "Bearer " + token }};
     
     axios
-      .post(process.env.REACT_APP_BACKEND_URL + "/worker_folders",worker_selected,head)
+      .post(process.env.REACT_APP_BACKEND_URL + "/worker_folders",worker_select,head)
       .then((result) => {
         if (result) {
           console.log("folders fetched .... ", result);
           if (result.status === 200) {
             console.log("success",result.data);
             setWorkerFolders(result.data.folders);
-            props.setSelectedWorker(worker_selected);
+            props.setSelectedWorker(worker_select);
+            
           } else {
             setErrMsg(result.data["msg"]);
             console.log("error ", result.data["msg"]);
@@ -77,7 +78,7 @@ function FolderView(props) {
       let token = sessionStorage.getItem("access_token");
       let head = { headers: { Authorization: "Bearer " + token }};
       axios.post(process.env.REACT_APP_BACKEND_URL + '/workers_online',data,head)
-      .then(response 
+      .then(response => {
         if(response.status===200){
           setWorkerData(response.data.workers);
           console.log(response.data.workers);
@@ -116,7 +117,7 @@ function FolderView(props) {
             <ListGroupItemHeading>{worker.name}</ListGroupItemHeading>
             </Col>
             <Col>
-          <Button onClick={()=>get_folders(worker_selected)}>select</Button>
+          <Button onClick={()=>get_folders(worker)}>select</Button>
           </Col>
           </Row>
           </div>
