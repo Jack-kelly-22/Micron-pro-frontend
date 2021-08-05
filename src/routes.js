@@ -17,16 +17,10 @@
 
 */
 import Dashboard from "views/Dashboard.js";
-import Notifications from "views/Notifications.js";
-import Icons from "views/Icons.js";
-import TableList from "views/Tables.js";
 import NewJob from "views/NewJob.js";
-import UserPage from "views/User.js";
 import SettingsPage from "views/SettingsPage.js";
 import PrevJobsPage from "views/PrevJobsPage.js";
 import Login from "views/Login.js";
-import { defaults } from "chart.js";
-import {is_logged_in,get_user} from "functions/LocalStorageHelper.js";
 
 var routes = [
 

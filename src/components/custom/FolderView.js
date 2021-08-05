@@ -111,16 +111,11 @@ function FolderView(props) {
   const worker_selections = worker_data===undefined?null: worker_data.map(function(worker){
     return (
       <ListGroupItem key={worker.id} value={worker} color={worker.name===worker_selected.name?"primary":"secondary"}>
-        <div>
-          <Row>
-            <Col>
-            <ListGroupItemHeading>{worker.name}</ListGroupItemHeading>
-            </Col>
-            <Col>
-          <Button onClick={()=>get_folders(worker)}>select</Button>
-          </Col>
-          </Row>
-          </div>
+          <ListGroupItemHeading>{worker.name}</ListGroupItemHeading>
+          <Button onClick={()=>get_folders(worker)}>
+          {worker.name===worker_selected.name?"selected":"select"}
+            </Button>
+          
       </ListGroupItem>    
     );
   });
@@ -135,9 +130,9 @@ function FolderView(props) {
               <CardTitle tag="h5">Select Host Computer</CardTitle>
             </CardHeader>
 
-            <ListGroup className="ml-auto">
+            {/* <ListGroup className="ml-auto"> */}
               {worker_selections}
-            </ListGroup>
+            {/* </ListGroup> */}
             
           </Card>
           <Card className="card-user">
