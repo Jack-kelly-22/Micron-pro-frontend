@@ -19,12 +19,15 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import JobList from "components/custom/JobList.js";
+import {get_user,is_logged_in} from "../functions/LocalStorageHelper.js";
+import Login from "./Login.js";
 
 function PrevJobsPage() {
   //Job info
   const [in_progress_jobs, setInProgressJobs] = useState([]);
   const [completed_jobs, setCompletedJobs] = useState([]);
   const [to_review_jobs, setToReviewJobs] = useState([]);
+  const [logged_in, setLoggedIn] = useState(is_logged_in());
   //image options
 
   useEffect(() => {
@@ -39,16 +42,17 @@ function PrevJobsPage() {
       .catch(error => {console.log(error);});
     }
     
-    var in_progress_data = {status: "in_progress"};
+    var in_progress_data = {status: "In Progress"};
     var completed_data = {status: "Completed"};
     var to_review_data = {status: "to_review"};
-    get_jobs(in_progress_data,setInProgressJobs);
-    get_jobs(completed_data,setCompletedJobs);
-    get_jobs(to_review_data,setToReviewJobs);
-    
+    if (logged_in){
+      get_jobs(in_progress_data,setInProgressJobs);
+      get_jobs(completed_data,setCompletedJobs);
+      get_jobs(to_review_data,setToReviewJobs);
+    }
   }
   ,[]);
-
+  if (logged_in){
   return (
     
       <div className="content">
@@ -62,6 +66,10 @@ function PrevJobsPage() {
         </Row>
       </div>
   );
+}
+else{
+  return ( <Login setLoggedIn={setLoggedIn}></Login>);
+}
 }
 
 export default PrevJobsPage;

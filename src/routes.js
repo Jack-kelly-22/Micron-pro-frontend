@@ -24,13 +24,7 @@ import Login from "views/Login.js";
 
 var routes = [
 
-  {
-    path: "/login",
-    name: "Login",
-    icon: "nc-icon nc-circle-10",
-    component: Login,
-    layout: "/admin",
-  },
+  
   {
     path: "/dashboard",
     name: "Dashboard",

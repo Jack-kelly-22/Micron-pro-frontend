@@ -6,7 +6,7 @@
  * @author Thread News
  *
  * Created at     : 2021-05-28 10:23:45
- * Last modified  : 2021-07-28 04:16:21
+ * Last modified  : 2021-08-06 02:44:42
  */
 
 //react imports
@@ -50,9 +50,10 @@ export default function Login(props) {
             console.log("Incorrect login");
           }
           if (result.status === 200) {
-            console.log("REsult", result.data);
             sessionStorage.setItem("access_token", result.data.access_token);
             store_user(result.data.user);
+            console.log("REsult", result.data);
+            props.setLoggedIn(true);
           }
         }
       })
@@ -88,13 +89,13 @@ export default function Login(props) {
               placeholder="Enter password"
             />
           </div>
-          {/* {errMsg === "" ? null : <Alert variant="danger">{errMsg}</Alert>} */}
+          {errMsg === "" ? null : errMsg}
           <LinkContainer to="/admin/dashboard">
             <button
               type="submit"
               className="btn btn-dark btn-lg btn-block"
               href="/admin/dashboard"
-              onClick={login}
+              onClick={()=>login()}
             >
               Log in
             </button>

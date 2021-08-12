@@ -33,7 +33,8 @@ import {
 
 import axios from "axios";
 import JobList from "../components/custom/JobList.js";
-
+import {get_user,is_logged_in} from "../functions/LocalStorageHelper.js";
+import Login from "./Login.js";
 
 function Dashboard() {
   const [stats, setStats] = useState({
@@ -41,6 +42,7 @@ function Dashboard() {
     total_jobs: 0,
     in_progress: 0,
   });
+  const [logged_in, setLoggedIn] = useState(is_logged_in());
 
   useEffect(() => {
     async function loadStats() {
@@ -53,6 +55,9 @@ function Dashboard() {
     loadStats();
   }, []);
 
+  if (!logged_in){
+    return <Login setLoggedIn={setLoggedIn} />;
+  }
   return (
     <>
       <div className="content">

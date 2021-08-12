@@ -10,14 +10,14 @@ import {
   Col,
   ListGroup,
   ListGroupItem,
+  
 } from "reactstrap";
-import axios from "axios";
+import {Link} from "react-router-dom";
 
-import FolderView from "../components/custom/FolderView.js";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import JobOptions from "../components/custom/JobOptions.js";
 import classnames from "classnames";
-import {get_users} from "../functions/helper.js";
+import { get_users } from "../functions/helper.js";
 function SettingsPage() {
   const [activeTab, setActiveTab] = useState("1");
   const [users, setUsers] = useState([]);
@@ -26,22 +26,14 @@ function SettingsPage() {
   };
 
   useEffect(() => {
-    get_users().then(data => {setUsers(data);});
+    get_users().then((data) => {
+      setUsers(data);
+    });
   }, []);
 
   return (
     <div className="content">
       <Nav tabs>
-        <NavItem>
-          <NavLink
-            className={classnames({ active: activeTab === "1" })}
-            onClick={() => {
-              toggle("1");
-            }}
-          >
-            Tab1
-          </NavLink>
-        </NavItem>
         <NavItem>
           <NavLink
             className={classnames({ active: activeTab === "2" })}
@@ -54,9 +46,9 @@ function SettingsPage() {
         </NavItem>
         <NavItem>
           <NavLink
-            className={classnames({ active: activeTab === "2" })}
+            className={classnames({ active: activeTab === "3" })}
             onClick={() => {
-              toggle("2");
+              toggle("3");
             }}
           >
             System Info
@@ -64,22 +56,40 @@ function SettingsPage() {
         </NavItem>
       </Nav>
       <TabContent activeTab={activeTab}>
-        <TabPane tabId="1">
-          <h4>Users</h4>
-          <ListGroup>
-            
-            {users!==undefined ?users.map(user => (
-              <ListGroupItem key={user.id}>
-                {user.user_name}
-                dfdsaf
-              </ListGroupItem>
-            )):null }
-          </ListGroup>
-        </TabPane>
         <TabPane tabId="2">
           <h4>Create Configurations</h4>
           <Row>
             <JobOptions type="settings" buttonText="Save Config" />
+          </Row>
+        </TabPane>
+        <TabPane tabId="3">
+          <Row>
+            <Col>
+              <h4>System Info</h4>
+              <Row className="ml-auto">
+                <strong>Version: </strong>
+                <p> v3.0.3</p>
+              </Row>
+              <h4> Documentation</h4>
+              <Row className="ml-auto">
+                <strong> product spec:</strong>
+              </Row>
+              <Row className="ml-auto">
+                <strong> Install documentation</strong>
+              </Row>
+            </Col>
+            <Col>
+              <h4>Deployment resources</h4>
+              <Row>
+              <a href="https://dashboard.heroku.com/login">Heroku(frontend)</a>
+              </Row>
+              <Row><a href="https://dashboard.heroku.com/login" >Heroku(backend)</a></Row>
+              <Row><a href="https://www.mongodb.com/">MongoDB</a></Row>
+              <h4>Version Control</h4>
+              <Row><a href="https://github.com/Jack-kelly-22/micronPro-worker">micronPro-worker</a></Row>
+              <Row><a href="https://github.com/Jack-kelly-22/micronPro-worker">micronPro-frontend</a></Row>
+              <Row><a href="https://github.com/Jack-kelly-22/micronPro-worker">micronPro-backend</a></Row>
+            </Col>
           </Row>
         </TabPane>
       </TabContent>
