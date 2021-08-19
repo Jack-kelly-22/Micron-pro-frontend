@@ -10,9 +10,8 @@ import {
   Col,
   ListGroup,
   ListGroupItem,
-  
 } from "reactstrap";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import JobOptions from "../components/custom/JobOptions.js";
@@ -72,23 +71,46 @@ function SettingsPage() {
               </Row>
               <h4> Documentation</h4>
               <Row className="ml-auto">
-                <strong> product spec:</strong>
+                <strong>General documentation</strong>
+                <a href="https://github.com/Jack-kelly-22/MicronPro/blob/main/micronPro-backend/documentation/micron-pro-spec.docx">
+                  product spec
+                </a>
               </Row>
               <Row className="ml-auto">
                 <strong> Install documentation</strong>
+                <a href="https://github.com/Jack-kelly-22/micronPro-worker/blob/master/readme.md">Readme.md</a>
               </Row>
             </Col>
             <Col>
               <h4>Deployment resources</h4>
               <Row>
-              <a href="https://dashboard.heroku.com/login">Heroku(frontend)</a>
+                <a href="https://dashboard.heroku.com/login">
+                  Heroku(frontend)
+                </a>
               </Row>
-              <Row><a href="https://dashboard.heroku.com/login" >Heroku(backend)</a></Row>
-              <Row><a href="https://www.mongodb.com/">MongoDB</a></Row>
+              <Row>
+                <a href="https://dashboard.heroku.com/login">Heroku(backend)</a>
+
+              </Row>
+              <Row>
+                <a href="https://www.mongodb.com/">MongoDB</a>
+              </Row>
               <h4>Version Control</h4>
-              <Row><a href="https://github.com/Jack-kelly-22/micronPro-worker">micronPro-worker</a></Row>
-              <Row><a href="https://github.com/Jack-kelly-22/micronPro-worker">micronPro-frontend</a></Row>
-              <Row><a href="https://github.com/Jack-kelly-22/micronPro-worker">micronPro-backend</a></Row>
+              <Row>
+                <a href="https://github.com/Jack-kelly-22/micronPro-worker">
+                  micronPro-worker
+                </a>
+              </Row>
+              <Row>
+                <a href="https://github.com/Jack-kelly-22/micronPro-frontend">
+                  micronPro-frontend
+                </a>
+              </Row>
+              <Row>
+                <a href="https://github.com/Jack-kelly-22/MicronPro">
+                  micronPro-backend
+                </a>
+              </Row>
             </Col>
           </Row>
         </TabPane>

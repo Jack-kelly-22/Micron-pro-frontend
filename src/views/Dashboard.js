@@ -155,9 +155,9 @@ function Dashboard() {
               <CardBody>
                 <Row>
                   <Col>
-                  <JobList header={"Complete"}/>
+                  <JobList header="In Progress"/>
+                  <JobList header="Complete"/>
                   </Col>
-                  
                 </Row>
               </CardBody>
             </Card>
@@ -173,3 +173,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
