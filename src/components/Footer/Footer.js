@@ -35,14 +35,9 @@ function Footer(props) {
                 </a>
               </li>
               <li>
-                <a href="https://blog.creative-tim.com" target="_blank">
-                  github
-                </a>
               </li>
               <li>
-                <a href="https://www.creative-tim.com/license" target="_blank">
-                  Licenses
-                </a>
+                Email jkdev222@gmail.com for help with the app
               </li>
             </ul>
           </nav>
