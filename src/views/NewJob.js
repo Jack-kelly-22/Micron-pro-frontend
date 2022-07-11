@@ -55,9 +55,9 @@ function NewJob() {
     setFolders([]);
   }
 
-  if (!is_logged_in()){
-    return <Login setLoggedIn={setLoggedIn}/>;
-  }
+  // if (!is_logged_in()){
+  //   return <Login setLoggedIn={setLoggedIn}/>;
+  // }
   
   return (
     <>

@@ -18,7 +18,7 @@ import JobOptions from "../components/custom/JobOptions.js";
 import classnames from "classnames";
 import { get_users } from "../functions/helper.js";
 function SettingsPage() {
-  const [activeTab, setActiveTab] = useState("1");
+  const [activeTab, setActiveTab] = useState("2");
   const [users, setUsers] = useState([]);
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -58,6 +58,9 @@ function SettingsPage() {
         <TabPane tabId="2">
           <h4>Create Configurations</h4>
           <Row>
+            <p> Default Config</p>
+          </Row>
+          <Row>
             <JobOptions type="settings" buttonText="Save Config" />
           </Row>
         </TabPane>
@@ -76,25 +79,10 @@ function SettingsPage() {
                   product spec
                 </a>
               </Row>
-              <Row className="ml-auto">
-                <strong> Install documentation</strong>
-                <a href="https://github.com/Jack-kelly-22/micronPro-worker/blob/master/readme.md">Readme.md</a>
-              </Row>
+              
             </Col>
             <Col>
-              <h4>Deployment resources</h4>
-              <Row>
-                <a href="https://dashboard.heroku.com/login">
-                  Heroku(frontend)
-                </a>
-              </Row>
-              <Row>
-                <a href="https://dashboard.heroku.com/login">Heroku(backend)</a>
-
-              </Row>
-              <Row>
-                <a href="https://www.mongodb.com/">MongoDB</a>
-              </Row>
+              
               <h4>Version Control</h4>
               <Row>
                 <a href="https://github.com/Jack-kelly-22/micronPro-worker">
@@ -106,11 +94,7 @@ function SettingsPage() {
                   micronPro-frontend
                 </a>
               </Row>
-              <Row>
-                <a href="https://github.com/Jack-kelly-22/MicronPro">
-                  micronPro-backend
-                </a>
-              </Row>
+              
             </Col>
           </Row>
         </TabPane>

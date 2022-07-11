@@ -1,24 +1,6 @@
 import { React, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-// reactstrap components
-import {
-  Button,
-  Badge,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  FormGroup,
-  Form,
-  Input,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemText,
-  ListGroupItemHeading,
-} from "reactstrap";
+
 import axios from "axios";
 
 import JobItem from "./JobItem.js";
@@ -65,17 +47,15 @@ function JobList(props) {
 
 
   useEffect(() => {
-    async function get_jobs() {
-      let data = {};
+    async function get_jobs(offset=0,reverse=true) {
+      let data = {"offset":offset,"reverse":reverse};
       if (props.header !== undefined) {
         data["status"] = props.header;
       }
       
-
-      let token = sessionStorage.getItem("access_token");
-      let head = { headers: { Authorization: "Bearer " + token } };
+      
       axios
-        .post(process.env.REACT_APP_BACKEND_URL + "/get_jobs", data, head)
+        .post(process.env.REACT_APP_BACKEND_URL + "/get_jobs", data)
         .then(function (response) {
           setJobList(response.data.jobs);
           console.log("JOB LIST: ", response.data.jobs);
@@ -90,6 +70,8 @@ function JobList(props) {
   return (
     <div>
         <h5>{props.header}</h5>
+        {/* create input for pagination */}
+        <input type="number" id="page_num" placeholder="Page Number" />
         {job_list.map((job) => {
           return <JobItem {...job}  delete_job={delete_job} update_status={update_status()}/>;
         })}
