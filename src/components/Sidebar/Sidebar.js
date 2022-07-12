@@ -1,30 +1,11 @@
-/*!
 
-=========================================================
-* Paper Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { useState,useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Nav, NavItem, Button } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
-import { is_logged_in, signOut } from "functions/LocalStorageHelper";
 import logo from "logo.svg";
 import PerfectScrollbar from "perfect-scrollbar";
-import Login from "views/Login";
 
 var ps;
 
@@ -32,12 +13,10 @@ function Sidebar(props) {
   const sidebar = React.useRef();
   // verifies if routeName is the one active (in browser input)
   
-  const [logged_in, setLogged_in] = useState(false);
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   };
   useEffect(() => {
-    setLogged_in(is_logged_in());
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(sidebar.current, {
         suppressScrollX: true,
@@ -67,9 +46,6 @@ function Sidebar(props) {
       <div className="sidebar-wrapper" ref={sidebar}>
         <Nav>
           {props.routes.map((prop, key) => {
-            if(prop.path === "/login" && logged_in){
-              return (<div></div>)
-            }
             return (
               <li
                 className={
@@ -88,25 +64,6 @@ function Sidebar(props) {
               </li>
             );
           })}
-          <NavItem className="ml-auto mr-auto" style={{ width: "90%" }}>
-            {logged_in ? (
-              <Button
-                style={{ width: "90%" }}
-                onClick={
-                  () => {
-                    signOut();
-                    setLogged_in(false);
-                  }
-                }
-              >
-                Log out
-              </Button>
-            ) : (
-              <NavLink to={"/admin/login"}>
-                <Button style={{ width: "90%" }}>Sign in</Button>
-              </NavLink>
-            )}
-          </NavItem>
         </Nav>
       </div>
     </div>

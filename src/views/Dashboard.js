@@ -1,21 +1,4 @@
-/*!
 
-=========================================================
-* Paper Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import {React,useEffect,useState} from "react";
 // react plugin used to create charts
 import { Line, Pie } from "react-chartjs-2";
@@ -34,7 +17,6 @@ import {
 import axios from "axios";
 import JobList from "../components/custom/JobList.js";
 import {get_user,is_logged_in} from "../functions/LocalStorageHelper.js";
-import Login from "./Login.js";
 
 function Dashboard() {
   const [stats, setStats] = useState({
@@ -46,18 +28,14 @@ function Dashboard() {
 
   useEffect(() => {
     async function loadStats() {
-      let token = sessionStorage.getItem("access_token");
-      let head = { headers: { Authorization: "Bearer " + token } };
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL + "/get_stats",{},head);
+      const response = await axios.post(process.env.REACT_APP_BACKEND_URL + "/get_stats",{});
       setStats(response.data.stats);
       console.log(response.data.stats);
     }
     loadStats();
   }, []);
 
-  if (!logged_in){
-    return <Login setLoggedIn={setLoggedIn} />;
-  }
+  
   return (
     <>
       <div className="content">

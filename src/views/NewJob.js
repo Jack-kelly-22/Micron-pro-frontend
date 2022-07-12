@@ -24,7 +24,6 @@ import axios from "axios";
 import FolderView from "../components/custom/FolderView.js";
 import JobOptions from "../components/custom/JobOptions.js";
 import {get_user,is_logged_in} from "../functions/LocalStorageHelper.js";
-import Login from "./Login.js";
 const dotenv = require('dotenv');
 dotenv.config();
 

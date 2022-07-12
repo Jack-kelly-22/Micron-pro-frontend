@@ -1,12 +1,3 @@
-/**
- * includes functions to store and retrieve user data from sessionstorage
- *
- * @summary functions to easily interact with sessionstorage
- * @author Thread News
- *
- * Created at     : 2021-05-28 22:23:04
- * Last modified  : 2021-08-06 02:41:44
- */
 
  export function store_user(user, access_token = false) {
     if (access_token) {

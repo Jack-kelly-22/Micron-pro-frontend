@@ -20,7 +20,6 @@ import {
 import axios from "axios";
 import JobList from "components/custom/JobList.js";
 import {get_user,is_logged_in} from "../functions/LocalStorageHelper.js";
-import Login from "./Login.js";
 
 function PrevJobsPage() {
   //Job info
