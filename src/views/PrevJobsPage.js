@@ -52,7 +52,7 @@ function PrevJobsPage() {
     }
   }
   ,[]);
-  if (logged_in){
+  
   return (
     
       <div className="content">
@@ -66,10 +66,7 @@ function PrevJobsPage() {
         </Row>
       </div>
   );
-}
-else{
-  return ( <Login setLoggedIn={setLoggedIn}></Login>);
-}
+
 }
 
 export default PrevJobsPage;

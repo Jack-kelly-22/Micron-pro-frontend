@@ -33,7 +33,7 @@ function NewJob() {
   const [job_name, setJobName] = useState("defaultname");
   const [folders, setFolders] = useState([]);
   const [selected_worker, setSelectedWorker] = useState(null);
-  const [logged_in, setLoggedIn] = useState(is_logged_in());
+
   //image options
 
   function add_folder(folder, size) {
@@ -55,9 +55,6 @@ function NewJob() {
     setFolders([]);
   }
 
-  // if (!is_logged_in()){
-  //   return <Login setLoggedIn={setLoggedIn}/>;
-  // }
   
   return (
     <>

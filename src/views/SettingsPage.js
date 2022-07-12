@@ -79,7 +79,6 @@ function SettingsPage() {
                   product spec
                 </a>
               </Row>
-              
             </Col>
             <Col>
               
@@ -94,7 +93,6 @@ function SettingsPage() {
                   micronPro-frontend
                 </a>
               </Row>
-              
             </Col>
           </Row>
         </TabPane>

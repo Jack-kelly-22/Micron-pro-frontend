@@ -23,7 +23,7 @@ dotenv.config();
 
 function FolderView(props) {
   const [worker_folders, setWorkerFolders] = useState([]);
-  const [err_msg, setErrMsg] = useState([]);
+  const [err_msg, setErrMsg] = useState("");
   const [worker_data, setWorkerData] = useState([]);
   const [worker_selected, setWorkerSelected] = useState({});
   const [page, setPage] = useState(1);
