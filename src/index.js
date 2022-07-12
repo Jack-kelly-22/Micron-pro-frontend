@@ -32,13 +32,11 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 import AdminLayout from "layouts/Admin.js";
 import PrevJobsPage from 'views/PrevJobsPage';
-import Login from 'views/Login';
 
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/admin/login" component={Login}/>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/admin/prev_jobs" component={PrevJobsPage} />
       <Redirect to="/admin/dashboard"/>
